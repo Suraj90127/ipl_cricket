@@ -34,7 +34,7 @@ export default function DashboardPage() {
   }, [user]);
 
   return (
-    <div className="space-y-6 pt-2 px-4 min-h-screen 
+    <div className="space-y-6 px-4 min-h-screen 
     bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] relative overflow-hidden">
 
       {/* Glow */}

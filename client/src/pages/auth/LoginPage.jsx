@@ -15,8 +15,14 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
+
+    const payload = {
+      phone,
+      password
+    };
+
     try {
-      await login(phone, password);
+      await login(payload);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid credentials1111');

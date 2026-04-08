@@ -145,6 +145,8 @@ export async function signup(req, res) {
 export async function login(req, res) {
   try {
     const { phone, password } = req.body;
+    console.log(req.body);
+    
 
     const user = await User.findOne({ phone: String(phone).trim() });
 
