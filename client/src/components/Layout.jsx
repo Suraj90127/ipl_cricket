@@ -23,8 +23,8 @@ export default function Layout() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[100px] -ml-40 -mb-20"></div>
       </div>
 
-      <HeaderBar />
-      <main className="flex-1 px-4 sm:px-6 md:px-8 pb-28 pt-4 relative z-10 max-w-3xl mx-auto w-full">
+      <HeaderBar  />
+      <main className="flex-1 px-4 sm:px-6 md:px-8 pb-6 relative z-10 max-w-3xl mx-auto w-full">
         
         <div className="animate-fade-in w-full max-w-md m-auto">
           <Outlet />
