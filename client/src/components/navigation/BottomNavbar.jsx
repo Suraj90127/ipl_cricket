@@ -11,9 +11,9 @@ const links = [
 
 export default function BottomNavbar() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 flex justify-center z-50">
+    <div className="fixed bottom-4 left-0 right-0 flex justify-center z-50 px-4">
 
-      <nav className="flex justify-between items-center w-full max-w-md px-2 py-2 bg-white/90 backdrop-blur-md border border-slate-200 rounded-2xl shadow-lg">
+      <nav className="flex justify-between items-center w-full max-w-md px-2 py-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl">
 
         {links.map((link) => {
           const Icon = link.icon;
@@ -24,11 +24,11 @@ export default function BottomNavbar() {
               to={link.to}
               end={link.exact}
               className={({ isActive }) =>
-                `flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-xl transition-all
+                `flex flex-col items-center justify-center gap-1 px-3 py-1.5 rounded-xl transition-all
                 ${
                   isActive
-                    ? "text-indigo-600"
-                    : "text-slate-400 hover:text-slate-700"
+                    ? "text-teal-400"
+                    : "text-white/40 hover:text-white/60"
                 }`
               }
             >
@@ -38,7 +38,7 @@ export default function BottomNavbar() {
                     className={`p-1.5 rounded-lg transition
                     ${
                       isActive
-                        ? "bg-indigo-100 text-indigo-600"
+                        ? "bg-teal-400/10 text-teal-400 shadow-[0_0_15px_rgba(45,212,191,0.2)]"
                         : ""
                     }`}
                   >
@@ -46,8 +46,8 @@ export default function BottomNavbar() {
                   </div>
 
                   <span
-                    className={`text-[10px] font-semibold ${
-                      isActive ? "text-indigo-600" : ""
+                    className={`text-[10px] font-bold tracking-wide ${
+                      isActive ? "text-teal-400" : ""
                     }`}
                   >
                     {link.label}

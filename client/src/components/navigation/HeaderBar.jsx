@@ -24,7 +24,7 @@ export default function HeaderBar() {
       : user?.balance?.toFixed(2) ?? "0.00";
 
   return (
-    <header className="sticky top-0 z-50 w-full max-w-md mx-auto bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full max-w-md mx-auto bg-black/20 backdrop-blur-xl border-b border-white/10 px-4 py-3 flex items-center justify-between">
 
       {/* left */}
       <div className="flex items-center ">
@@ -33,13 +33,13 @@ export default function HeaderBar() {
           <Link
             to=".."
             relative="path"
-            className="p-2 rounded-lg hover:bg-slate-100"
+            className="p-2 rounded-xl text-white/60 hover:bg-white/10 transition-colors"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={22} />
           </Link>
         )}
 
-        <h1 className="text-base font-semibold text-slate-800">
+        <h1 className="text-base font-bold text-white tracking-tight ml-1">
           {title}
         </h1>
 
@@ -53,16 +53,16 @@ export default function HeaderBar() {
             {/* wallet badge */}
             <button
               onClick={() => navigate("/wallet")}
-              className="flex items-center gap-1 px-3 py-1.5 bg-slate-100 rounded-lg text-sm font-semibold text-slate-700"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 border border-white/5 rounded-xl text-sm font-bold text-white/90 shadow-sm"
             >
-              <Wallet size={16} />
+              <Wallet size={16} className="text-teal-400" />
               ₹{balance}
             </button>
 
             {/* recharge */}
             <button
               onClick={() => navigate("/wallet?mode=recharge")}
-              className="px-3 py-1.5 text-xs font-semibold bg-green-500 text-white rounded-lg hover:bg-green-600"
+              className="px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-teal-500 to-cyan-500 text-black rounded-xl shadow-lg shadow-teal-500/20 active:scale-95 transition"
             >
               Recharge
             </button>
@@ -70,7 +70,7 @@ export default function HeaderBar() {
         ) : (
           <Link
             to="/login"
-            className="flex items-center gap-1 px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700"
+            className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-black rounded-xl text-sm font-bold shadow-lg shadow-teal-500/20 active:scale-95 transition"
           >
             <LogIn size={16} />
             Login

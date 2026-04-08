@@ -16,7 +16,7 @@ export default function Layout() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-slate-800 flex flex-col relative selection:bg-accent/20">
+    <div className="min-h-screen bg-[#152727] text-slate-800 flex flex-col relative selection:bg-accent/20">
       {/* Global Background Glow Elements */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[100px] -mr-40 -mt-20"></div>

@@ -21,13 +21,17 @@ export default function HistoryPage() {
   }, [filter, page]);
 
   return (
-    <div className="space-y-6 pt-2 ">
+    <div className="space-y-6 pt-2 min-h-screen bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] -mx-4 px-4 pb-20 relative overflow-hidden">
+      {/* Glow Effects */}
+      <div className="absolute top-0 left-0 w-72 h-72 bg-teal-400/10 blur-3xl rounded-full"></div>
+      <div className="absolute bottom-0 right-0 w-72 h-72 bg-cyan-400/10 blur-3xl rounded-full"></div>
+
       <div className="flex items-center justify-between px-1">
-        <h2 className="text-xl font-bold tracking-tight text-slate-800 flex items-center gap-2">
-          <Activity size={24} className="text-accent" />
+        <h2 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+          <Activity size={24} className="text-teal-400" />
           Betting History
         </h2>
-        <CalendarRange size={20} className="text-slate-400" />
+        <CalendarRange size={20} className="text-white/30" />
       </div>
 
       <div className="-mx-4 px-4 sm:mx-0 sm:px-0">
@@ -36,10 +40,10 @@ export default function HistoryPage() {
             <button
               key={f.key}
               onClick={() => { setFilter(f.key); setPage(1); }}
-              className={`snap-start shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 border ${
+              className={`snap-start shrink-0 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 border ${
                 filter === f.key 
-                  ? 'border-accent bg-accent text-white shadow-glow' 
-                  : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
+                  ? 'bg-gradient-to-r from-teal-500 to-cyan-500 border-transparent text-black shadow-lg shadow-teal-500/20' 
+                  : 'border-white/10 bg-white/5 text-white/40 hover:border-teal-400/30 hover:bg-white/10 hover:text-white'
               }`}
             >
               {f.label}
@@ -50,8 +54,8 @@ export default function HistoryPage() {
 
       <div className="space-y-3 relative min-h-[200px]">
         {loading && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/50 backdrop-blur-sm z-10 rounded-2xl">
-            <div className="w-8 h-8 rounded-full border-4 border-slate-200 border-t-accent animate-spin mb-4"></div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0b1220]/50 backdrop-blur-sm z-10 rounded-2xl">
+            <div className="w-8 h-8 rounded-full border-4 border-white/20 border-t-teal-400 animate-spin mb-4"></div>
           </div>
         )}
         
@@ -66,17 +70,17 @@ export default function HistoryPage() {
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 disabled:opacity-30 hover:border-accent hover:text-accent transition-all"
+              className="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60 disabled:opacity-30 hover:bg-white/10 transition-all"
             >
               <ChevronLeft size={18} />
             </button>
-            <span className="text-sm font-semibold text-slate-600">
-              {page} / {totalPages}
+            <span className="text-sm font-bold text-white/40">
+              Page {page} / {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
-              className="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 disabled:opacity-30 hover:border-accent hover:text-accent transition-all"
+              className="w-10 h-10 flex items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/60 disabled:opacity-30 hover:bg-white/10 transition-all"
             >
               <ChevronRight size={18} />
             </button>
@@ -84,12 +88,12 @@ export default function HistoryPage() {
         )}
         
         {!loading && !bets.length && (
-          <div className="flex flex-col items-center justify-center py-16 text-center glass rounded-3xl border-dashed border-slate-200">
-            <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300">
+          <div className="flex flex-col items-center justify-center py-16 text-center bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 border-dashed">
+            <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4 text-white/30">
               <CalendarRange size={32} />
             </div>
-            <h3 className="text-base font-bold text-slate-700">No bets found</h3>
-            <p className="text-slate-500 text-sm mt-1 px-8">You haven't placed any bets in this time period.</p>
+            <h3 className="text-lg font-bold text-white">No bets found</h3>
+            <p className="text-white/40 text-sm mt-1 px-8">You haven't placed any bets in this time period.</p>
           </div>
         )}
       </div>
