@@ -19,7 +19,7 @@ export default function LoginPage() {
       await login(phone, password);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Invalid credentials');
+      setError(err.response?.data?.message || 'Invalid credentials1111');
     } finally {
       setLoading(false);
     }
