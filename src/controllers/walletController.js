@@ -47,44 +47,57 @@ export async function updateRechargeUTR(req, res) {
 
     if (!utrId) {
       return res.status(400).json({
-        message: "UTR ID required "
+        message: "UTR ID required"
       });
     }
 
+    // ✅ duplicate UTR check
+    const existing = await Transaction.findOne({ utrId });
+    if (existing) {
+      return res.status(400).json({
+        message: "UTR already use"
+      });
+    }
+
+    // ✅ sirf latest pending transaction
     const transaction = await Transaction.findOne({
       userId: req.userId,
       type: "recharge",
+      utrId: null
     }).sort({ createdAt: -1 });
 
     if (!transaction) {
       return res.status(404).json({
-        message: "no transaction found"
+        message: "No pending transaction found"
+      });
+    }
+
+    // ✅ safety: already filled check
+    if (transaction.utrId) {
+      return res.status(400).json({
+        message: "UTR already submit "
       });
     }
 
     // update transaction
     transaction.utrId = utrId;
-    transaction.status = "pending"; // ya "submitted"
+    transaction.status = "pending";
     await transaction.save();
 
-    // recharge history bhi update karo
-     const rechargehistory = await RechargeHistory.findOne(
-      {
-        userId: req.userId,
-        type: "recharge",
-      },
-    ).sort({ createdAt: -1 });
+    // ✅ recharge history update (safe)
+    const rechargehistory = await RechargeHistory.findOne({
+      userId: req.userId,
+      utrId: null
+    }).sort({ createdAt: -1 });
 
-    rechargehistory.utrId =utrId
-    rechargehistory.status ="pending"
-
-    await rechargehistory.save()
-
-
-    console.log(rechargehistory)
+    if (rechargehistory) {
+      rechargehistory.utrId = utrId;
+      rechargehistory.status = "pending";
+      await rechargehistory.save();
+    }
 
     res.json({
-      message: "UTR successfully update ho gaya",
+      message: "UTR successfully update ",
       transaction
     });
 
