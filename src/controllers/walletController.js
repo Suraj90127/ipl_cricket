@@ -19,7 +19,6 @@ export async function recharge(req, res) {
     await RechargeHistory.create({
       userId: user._id,
       amount,
-      utrId, // 👈 added
       status: 'pending',
       date: new Date()
     });
@@ -29,7 +28,6 @@ export async function recharge(req, res) {
       userId: user._id,
       amount,
       type: 'recharge',
-      utrId, // 👈 added
       status: 'pending'
     });
 
