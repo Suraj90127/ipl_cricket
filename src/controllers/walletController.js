@@ -49,7 +49,7 @@ export async function updateRechargeUTR(req, res) {
 
     if (!utrId) {
       return res.status(400).json({
-        message: "UTR ID required hai"
+        message: "UTR ID required "
       });
     }
 
