@@ -22,15 +22,6 @@ export default function PaymentPage() {
   const amount = Number(params.get("amount")) || 0;
 
 
-  // const paymentMethod = (type) => {
-  //   console.log("paymentMethod111",type);
-  //   if (type === "paytm") {
-  //     // window.location.href  = `paytmmp://cash_wallet?pa=${upiId}&pn=null&cu=INR&tn=&am=500.00&featuretype=money_transfer`
-  //     window.location.href = `paytmmp://cash_wallet?pa=${qrData?.upiId}&pn=null&cu=INR&tn=&am=${amount}.00&featuretype=money_transfer`;
-  //   }
-  // }
-
-
 const paymentMethod = (type) => {
   if (type === "phonepe") {
     const payload = {
