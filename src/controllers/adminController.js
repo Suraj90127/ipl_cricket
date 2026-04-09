@@ -670,25 +670,46 @@ export async function adminGetTransactions(req, res) {
 
 export async function adminUpdateTransaction(req, res) {
   try {
-    const { status } = req.body;
-    const tx = await Transaction.findById(req.params.id).populate('userId');
-    if (!tx) return res.status(404).json({ message: 'Transaction not found' });
+    let { status } = req.body;
 
-    if (status === 'approved' && tx.type === 'withdraw' && tx.status !== 'approved') {
-      // already deducted at request time, just mark approved
+    // 🔥 FIX: map 'done' to 'approved'
+    if (status === 'done') status = 'approved';
+
+    if (!['approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
     }
-    if (status === 'approved' && tx.type === 'recharge' && tx.status !== 'done') {
-      const user = await User.findById(tx.userId);
-      if (user) { user.balance += Math.abs(tx.amount); await user.save(); }
+
+    const tx = await Transaction.findById(req.params.id);
+    if (!tx) {
+      return res.status(404).json({ message: 'Transaction not found' });
     }
-    if (status === 'rejected' && tx.type === 'withdraw' && tx.status === 'requested') {
-      // refund the withdraw amount
-      const user = await User.findById(tx.userId);
-      if (user) { user.balance += Math.abs(tx.amount); await user.save(); }
+
+    if (tx.status === 'approved' || tx.status === 'rejected') {
+      return res.status(400).json({ message: 'Already processed' });
     }
+
+    const user = await User.findById(tx.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // ✅ Recharge
+    if (tx.type === 'recharge' && status === 'approved') {
+      user.balance += Math.abs(tx.amount);
+      await user.save();
+    }
+
+    // ✅ Withdraw
+    if (tx.type === 'withdraw' && status === 'rejected') {
+      user.balance += Math.abs(tx.amount); // refund
+      await user.save();
+    }
+
     tx.status = status;
     await tx.save();
-    res.json(tx);
+
+    res.json({ message: 'Updated', tx });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

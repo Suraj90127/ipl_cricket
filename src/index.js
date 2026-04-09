@@ -14,10 +14,14 @@ import betRoutes from './routes/betRoutes.js';
 import walletRoutes from './routes/walletRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import qrRoutes from './routes/qrRoutes.js'
 import { attachUser } from './middleware/auth.js';
 import { seedAdmin, seedDemo } from './seed.js';
 import { setIO } from './lib/socket.js';
 import path from 'path';
+import dns from "dns"
+
+dns.setServers(["1.1.1.1","8.8.8.8"])
 
 dotenv.config();
 
@@ -44,6 +48,7 @@ app.use('/api', betRoutes(io));
 app.use('/api', walletRoutes);
 app.use('/api', settingsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api',qrRoutes)
 import paymentMethodRoutes from './routes/paymentMethodRoutes.js';
 app.use('/api/payment-methods', paymentMethodRoutes);
 
