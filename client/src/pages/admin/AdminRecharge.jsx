@@ -57,7 +57,14 @@ export default function AdminRecharge() {
                     <td className="px-4 py-3 font-semibold text-slate-800">{t.userId?.name ?? '—'}</td>
                     <td className="px-4 py-3 text-slate-500 text-xs">{t.userId?.phone ?? '—'}</td>
                     <td className="px-4 py-3 text-right font-bold text-green-600">₹{t.amount}</td>
-                    <td className="px-4 py-3 text-slate-400 text-xs max-w-[160px] truncate">{t.description || t.note || '—'}</td>
+                    <td className="px-4 py-3 text-slate-400 text-xs max-w-[180px]">
+  {t.utrId ? (
+    <span className="font-mono text-teal-600">{t.utrId}</span>
+  ) : (
+    <span className="text-slate-400">NULL</span>
+  )}
+  {console.log(txns)}
+</td>
                     <td className="px-4 py-3 text-right text-slate-400 text-xs whitespace-nowrap">{format.dateTime(t.createdAt)}</td>
                     <td className="px-4 py-3">
                       <div className="flex justify-center gap-3">
