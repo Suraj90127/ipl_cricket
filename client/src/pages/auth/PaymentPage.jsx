@@ -91,7 +91,7 @@ export default function PaymentPage() {
           Select Payment Method
         </h2>
 
-                <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-3">
                     <button className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
                         <img src="https://i.ibb.co/v64348jF/paytmimg.jpg" className="w-6 h-6" />
                         <span className="text-sm font-semibold">Paytm</span>
@@ -102,7 +102,34 @@ export default function PaymentPage() {
                         <span className="text-sm font-semibold">PhonePe</span>
                     </button>
                 </div>
-            </div>
+      </div>
+
+      {/* 🔥 QR SECTION */}
+      <div className="mt-6 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl text-center">
+
+        <h3 className="text-sm font-semibold text-white/80 mb-4">
+          Scan & Pay
+        </h3>
+
+        {loading ? (
+          <p className="text-white/60">Generating QR...</p>
+        ) : qrData?.qrImage ? (
+          <div className="bg-white p-3 rounded-2xl inline-block shadow-xl">
+            <img
+              src={qrData.qrImage}
+              alt="QR Code"
+              className="w-[70vw] max-w-[260px] min-w-[180px]"
+            />
+          </div>
+        ) : (
+          <p className="text-red-400">QR not generated</p>
+        )}
+
+        <p className="text-xs text-white/50 mt-3">
+          Scan using any UPI app
+        </p>
+
+      </div>
 
       {/* Warning */}
       <div className="mt-4 p-3 rounded-xl 
@@ -118,25 +145,7 @@ export default function PaymentPage() {
           Transfer Details
         </h3>
 
-        {/* UPI INPUT */}
-        <div className="mb-4">
-          <p className="text-xs text-white/50 mb-1">UPI ID</p>
-
-          <div className="flex gap-2">
-            <input
-              value={upiId}
-              onChange={(e) => setUpiId(e.target.value)}
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm text-white"
-            />
-
-            <button
-              onClick={() => handleCopy(upiId)}
-              className="px-3 rounded-xl bg-white/5 border border-white/10"
-            >
-              <Copy size={16} className="text-teal-400" />
-            </button>
-          </div>
-        </div>
+        
 
         {/* Amount */}
         <div className="mb-4">
