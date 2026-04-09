@@ -1,4 +1,5 @@
-import QRCode from "qrcode"
+import QRCode from "qrcode";
+import UpiSettings from "../models/upiSettingsModel.js";
 
 /* ======================
    GENERATE UPI QR (USER DEPOSIT)
@@ -7,20 +8,23 @@ export const generateUserDepositUpiQR = async (req, res) => {
   try {
     const { amount } = req.body;
 
-    console.log(req.userId)
+    console.log(req.userId);
 
     if (!amount || amount <= 0) {
       return res.status(400).json({ message: "Valid amount required" });
     }
 
-    const upiId = process.env.UPI_ID;
-    const payeeName = process.env.UPI_NAME;
+    // 🔥 DB se UPI fetch
+    const upiData = await UpiSettings.findOne();
 
-    if (!upiId || !payeeName) {
+    if (!upiData) {
       return res.status(500).json({ message: "UPI not configured" });
     }
 
-    // 🔥 UNIQUE TRANSACTION ID (for UTR mapping)
+    const upiId = upiData.upiId;
+    const payeeName = upiData.upiName;
+
+    // 🔥 UNIQUE TRANSACTION ID
     const txnId = `DEP_${req.userId}_${Date.now()}`;
 
     const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
