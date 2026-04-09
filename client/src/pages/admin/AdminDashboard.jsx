@@ -25,9 +25,31 @@ export default function AdminDashboard() {
   useEffect(() => {
     adminService.getStats()
       .then(setStats)
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
+
+  const [txns, setTxns] = useState([]);
+
+
+  const load = () => {
+    setLoading(true);
+    adminService.getTransactions({ type: 'recharge', status: 'approved', })
+      .then((data) => {
+        setTxns(data.transactions ?? []);
+      })
+      .catch(() => { })
+      .finally(() => setLoading(false));
+  };
+  useEffect(() => {
+  load();
+}, []);
+
+  console.log(txns, "vikramm ghancakkar")
+
+  const totalRecharge = txns.reduce((sum, t) => {
+    return sum + (Number(t.amount) || 0);
+  }, 0);
 
   if (loading) return (
     <div className="flex justify-center items-center py-32">
@@ -37,11 +59,12 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-6 gap-4">
         <StatCard label="Total Users" value={stats?.totalUsers} icon={Users} color="bg-indigo-500" />
         <StatCard label="Total Bets" value={stats?.totalBets} icon={Ticket} color="bg-amber-500" />
         <StatCard label="Live Bets" value={stats?.liveBets} icon={RadioTower} color="bg-red-500" />
         <StatCard label="Revenue" value={`₹${stats?.totalRevenue ?? 0}`} icon={TrendingUp} color="bg-emerald-500" />
+        <StatCard label="Total Recharge" value={`₹${totalRecharge}`} icon={TrendingUp} color="bg-emerald-500" />
         <StatCard label="Withdrawals" value={`₹${stats?.totalWithdrawals ?? 0}`} icon={ArrowDownCircle} color="bg-purple-500" />
       </div>
 

@@ -18,8 +18,9 @@ export default function AdminRechargeHistory() {
       .then((data) => {
         setTxns(data.transactions ?? []);
         setTotalPages(data.totalPages ?? 1);
+        console.log(data);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   };
 
@@ -28,7 +29,7 @@ export default function AdminRechargeHistory() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2">
-        {['done', 'rejected'].map((s) => (
+        {['approved', 'rejected'].map((s) => (
           <button
             key={s}
             onClick={() => { setStatus(s); setPage(1); }}
@@ -59,9 +60,16 @@ export default function AdminRechargeHistory() {
                     <td className="px-4 py-3 font-semibold text-slate-800">{t.userId?.name ?? '—'}</td>
                     <td className="px-4 py-3 text-slate-500 text-xs">{t.userId?.phone ?? '—'}</td>
                     <td className="px-4 py-3 text-right font-bold text-green-600">₹{t.amount}</td>
-                    <td className="px-4 py-3 text-slate-400 text-xs max-w-[160px] truncate">{t.description || t.note || '—'}</td>
+                    <td className="px-4 py-3 text-slate-400 text-xs max-w-[180px]">
+                      {t.utrId ? (
+                        <span className=" text-black font-bold">{t.utrId}</span>
+                      ) : (
+                        <span className="text-slate-400">N/A</span>
+                      )}
+                      
+                    </td>
                     <td className="px-4 py-3 text-center">
-                      <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase ${t.status === 'done' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                      <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase ${t.status === 'approved' ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
                         {t.status}
                       </span>
                     </td>
