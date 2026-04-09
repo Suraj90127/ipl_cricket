@@ -8,7 +8,7 @@ const rechargeHistorySchema = new mongoose.Schema(
     date: { type: Date, default: Date.now },
     utrId: {
       type: String,
-      required: true,
+      sparse: true , // allow null values for other transactions
       unique: true // duplicate UTR block karega
     },
 
