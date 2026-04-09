@@ -6,14 +6,15 @@ const transactionSchema = new mongoose.Schema(
     amount: Number,
     type: { type: String, required: true },
     status: { type: String, default: 'pending' },
-    
+
     // 👇 UTR ID add karo
     utrId: {
       type: String,
-      unique: true, // duplicate UTR avoid karega
-      sparse: true  // allow null values for other transactions
+      unique: true,
+      sparse: true,
+      default: null // ✅ correct
     },
-
+    
     note: { type: String, default: '' },
     date: { type: Date, default: Date.now }
   },

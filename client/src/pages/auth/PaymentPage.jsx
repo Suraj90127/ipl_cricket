@@ -91,45 +91,18 @@ export default function PaymentPage() {
           Select Payment Method
         </h2>
 
-        <div className="grid grid-cols-2 gap-3">
-          <button className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-            <img src="https://i.ibb.co/93cPtXbT/Paytm-logo.png" className="w-6 h-6" />
-            <span className="text-sm font-semibold">Paytm</span>
-          </button>
+                <div className="grid grid-cols-2 gap-3">
+                    <button className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
+                        <img src="/paytm.png" className="w-6 h-6" />
+                        <span className="text-sm font-semibold">Paytm</span>
+                    </button>
 
-          <button className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-            <img src="https://i.ibb.co/pBK859jF/phonepe-icon.webp" className="w-6 h-6" />
-            <span className="text-sm font-semibold">PhonePe</span>
-          </button>
-        </div>
-      </div>
-
-      {/* 🔥 QR SECTION */}
-      <div className="mt-6 p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl text-center">
-
-        <h3 className="text-sm font-semibold text-white/80 mb-4">
-          Scan & Pay
-        </h3>
-
-        {loading ? (
-          <p className="text-white/60">Generating QR...</p>
-        ) : qrData?.qrImage ? (
-          <div className="bg-white p-3 rounded-2xl inline-block shadow-xl">
-            <img
-              src={qrData.qrImage}
-              alt="QR Code"
-              className="w-[70vw] max-w-[260px] min-w-[180px]"
-            />
-          </div>
-        ) : (
-          <p className="text-red-400">QR not generated</p>
-        )}
-
-        <p className="text-xs text-white/50 mt-3">
-          Scan using any UPI app
-        </p>
-
-      </div>
+                    <button className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
+                        <img src="/phonepe.png" className="w-6 h-6" />
+                        <span className="text-sm font-semibold">PhonePe</span>
+                    </button>
+                </div>
+            </div>
 
       {/* Warning */}
       <div className="mt-4 p-3 rounded-xl 
