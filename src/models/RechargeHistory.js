@@ -2,15 +2,20 @@ import mongoose from 'mongoose';
 
 const rechargeHistorySchema = new mongoose.Schema(
   {
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    amount: { type: Number, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    amount: Number,
+    type: { type: String, required: true },
     status: { type: String, default: 'pending' },
-    date: { type: Date, default: Date.now },
+
+    // 👇 UTR ID add karo
     utrId: {
       type: String,
       unique: true,
       sparse: true,
-    }
+    },
+
+    note: { type: String, default: '' },
+    date: { type: Date, default: Date.now }
   },
   { timestamps: true }
 );

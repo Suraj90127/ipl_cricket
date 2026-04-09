@@ -20,6 +20,7 @@ export async function recharge(req, res) {
       userId: user._id,
       amount,
       status: 'pending',
+      type: 'recharge',
       date: new Date()
     });
 

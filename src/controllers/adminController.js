@@ -672,7 +672,7 @@ export async function adminUpdateTransaction(req, res) {
   try {
     let { status } = req.body;
 
-    // 🔥 FIX: map 'done' to 'approved'
+    // map 'done' to 'approved'
     if (status === 'done') status = 'approved';
 
     if (!['approved', 'rejected'].includes(status)) {
@@ -693,20 +693,34 @@ export async function adminUpdateTransaction(req, res) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // ✅ Recharge
+    // ✅ Recharge Approved → Add balance
     if (tx.type === 'recharge' && status === 'approved') {
       user.balance += Math.abs(tx.amount);
       await user.save();
     }
 
-    // ✅ Withdraw
+    // ✅ Withdraw Rejected → Refund
     if (tx.type === 'withdraw' && status === 'rejected') {
-      user.balance += Math.abs(tx.amount); // refund
+      user.balance += Math.abs(tx.amount);
       await user.save();
     }
 
+    // ✅ Update transaction
     tx.status = status;
     await tx.save();
+
+    // 🔥 IMPORTANT: RechargeHistory sync
+    if (tx.type === 'recharge') {
+      await RechargeHistory.findOneAndUpdate(
+        {
+          userId: tx.userId,
+          utrId: tx.utrId // 👈 best match
+        },
+        {
+          status: status // approved / rejected
+        }
+      );
+    }
 
     res.json({ message: 'Updated', tx });
 
