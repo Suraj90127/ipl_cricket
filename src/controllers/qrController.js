@@ -7,6 +7,8 @@ export const generateUserDepositUpiQR = async (req, res) => {
   try {
     const { amount } = req.body;
 
+    console.log(req.userId)
+
     if (!amount || amount <= 0) {
       return res.status(400).json({ message: "Valid amount required" });
     }
@@ -19,7 +21,7 @@ export const generateUserDepositUpiQR = async (req, res) => {
     }
 
     // 🔥 UNIQUE TRANSACTION ID (for UTR mapping)
-    const txnId = `DEP_${req.user._id}_${Date.now()}`;
+    const txnId = `DEP_${req.userId}_${Date.now()}`;
 
     const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(
       payeeName
