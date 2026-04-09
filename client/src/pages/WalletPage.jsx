@@ -137,7 +137,8 @@ export default function WalletPage() {
   const { balance,user, transactions, fetchTransactions, recharge, withdraw, totalPages, paymentMethods, fetchPaymentMethods, addPaymentMethod } = useWalletStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const [amountInput, setAmountInput] = useState('50');
+  const [amountInput, setAmountInput] = useState('100');
+  const presetAmounts = [100, 200, 500, 1000, 2000, 5000];
   const [upiId, setUpiId] = useState('');
   const [withdrawMethod, setWithdrawMethod] = useState('upi');
   const [accountName, setAccountName] = useState('');
@@ -198,6 +199,7 @@ export default function WalletPage() {
     const trimmedAccName = accountName.trim();
     const trimmedAccNo = accountNumber.trim();
     const trimmedIfsc = ifsc.trim();
+    
 
     // Check if payment method is already saved, if yes, skip manual input validation
     if (withdrawMethod === 'upi') {
@@ -284,25 +286,46 @@ const savedBank = paymentMethods.find(m => m.type === "bank");
    <div className="bg-white/5 border border-white/10 backdrop-blur-xl rounded-3xl p-5 shadow-lg space-y-5 relative z-10">
 
   {/* Amount */}
-  <div>
-    <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 block">
-      Enter Amount
-    </label>
 
-    <div className="relative group">
-      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-teal-400 transition-colors">
-        <IndianRupee size={18} />
-      </span>
+<div>
+  <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-2 block">
+    Enter Amount
+  </label>
 
-      <input
-        type="number"
-        value={amountInput}
-        onChange={(e) => setAmountInput(e.target.value)}
-        placeholder="0.00"
-        className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white text-lg font-bold placeholder-white/20 focus:border-teal-400/50 outline-none transition"
-      />
-    </div>
+  <div className="relative group">
+    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-teal-400 transition-colors">
+      <IndianRupee size={18} />
+    </span>
+
+    <input
+      type="number"
+      value={amountInput}
+      onChange={(e) => setAmountInput(e.target.value)}
+      placeholder="0.00"
+      className="w-full pl-10 pr-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-white text-lg font-bold placeholder-white/20 focus:border-teal-400/50 outline-none transition"
+    />
   </div>
+
+  {/* Preset Amount Boxes */}
+  <div className="grid grid-cols-3 gap-3 mt-4">
+    {presetAmounts.map((amt) => (
+      <button
+        key={amt}
+        onClick={() => setAmountInput(amt)}
+        className={`py-2 rounded-xl border text-sm font-semibold transition 
+        ${
+          amountInput == amt
+            ? "bg-teal-500 text-white border-teal-400"
+            : "bg-white/5 text-white/70 border-white/10 hover:bg-white/10"
+        }`}
+      >
+        ₹{amt}
+      </button>
+    ))}
+  </div>
+</div>
+
+
 
 
   {/* Withdraw Methods */}

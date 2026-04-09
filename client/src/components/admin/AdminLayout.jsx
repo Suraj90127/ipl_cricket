@@ -13,6 +13,7 @@ const routeTitles = {
   '/admin/matches': 'Matches',
   '/admin/templates': 'Templates Manager',
   '/admin/questions': 'Prediction Questions',
+  '/admin/Upi-Upadte': 'UPI Settings',
   '/admin/transactions': 'Transactions',
   '/admin/recharge': 'Recharge Requests',
   '/admin/withdraw': 'Withdraw Requests',

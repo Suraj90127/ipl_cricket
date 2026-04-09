@@ -18,7 +18,6 @@ export default function AdminRechargeHistory() {
       .then((data) => {
         setTxns(data.transactions ?? []);
         setTotalPages(data.totalPages ?? 1);
-        console.log(data);
       })
       .catch(() => { })
       .finally(() => setLoading(false));

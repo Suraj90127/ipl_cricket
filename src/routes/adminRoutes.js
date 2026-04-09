@@ -12,6 +12,10 @@ import { uploadImageHandler } from '../controllers/uploadController.js';
 import { adminUpdateSettings } from '../controllers/settingsController.js';
 import { requireAdmin, requireAuth } from '../middleware/auth.js';
 import paymentMethodRoutes from './paymentMethodRoutes.js';
+import {
+  getUpiDetails,
+  updateUpiDetails,
+} from "../controllers/adminUpiController.js"
 
 const router = Router();
 router.use(requireAuth, requireAdmin);
@@ -61,5 +65,11 @@ router.patch('/settings', adminUpdateSettings);
 
 // payment methods
 router.use('/payment-methods', paymentMethodRoutes);
+
+// Public route (user fetch kare)
+router.get("/upi", getUpiDetails);
+
+// Admin route
+router.put("/update/upi", updateUpiDetails);
 
 export default router;
