@@ -1,17 +1,17 @@
-import express from "express";
-import {
-  getUpiDetails,
-  updateUpiDetails,
-} from "../controllers/adminUpiController";
+// import express from "express";
+// import {
+//   getUpiDetails,
+//   updateUpiDetails,
+// } from "../controllers/adminUpiController";
 
-const router = express.Router();
+// const router = express.Router();
 
-import { requireAuth } from '../middleware/auth.js';
+// import { requireAuth } from '../middleware/auth.js';
 
-// Public route (user fetch kare)
-router.get("/upi", requireAuth, getUpiDetails);
+// // Public route (user fetch kare)
+// router.get("/upi", requireAuth, getUpiDetails);
 
-// Admin route
-router.put("/admin/upi", requireAuth, updateUpiDetails);
+// // Admin route
+// router.put("/admin/upi", requireAuth, updateUpiDetails);
 
-export default router;
+// export default router;
