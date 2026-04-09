@@ -9,7 +9,7 @@ export async function recharge(req, res) {
     const { amount, utrId } = req.body;
 
     // basic validation
-    if (!amount ) {
+    if (!amount) {
       return res.status(400).json({ message: "Amount aur UTR ID required hai" });
     }
 
@@ -40,6 +40,58 @@ export async function recharge(req, res) {
 
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+export async function updateRechargeUTR(req, res) {
+  try {
+    const { utrId } = req.body;
+
+    if (!utrId) {
+      return res.status(400).json({
+        message: "UTR ID required hai"
+      });
+    }
+
+    const transaction = await Transaction.findOne({
+      userId: req.userId,
+      type: "recharge",
+      utrId: null
+    }).sort({ createdAt: -1 });
+
+    if (!transaction) {
+      return res.status(404).json({
+        message: "no transaction found"
+      });
+    }
+
+    // update transaction
+    transaction.utrId = utrId;
+    transaction.status = "pending"; // ya "submitted"
+    await transaction.save();
+
+    // recharge history bhi update karo
+    await RechargeHistory.findOneAndUpdate(
+      {
+        userId: req.userId,
+        utrId: null
+      },
+      {
+        utrId
+      },
+      { sort: { createdAt: -1 } }
+    );
+
+    res.json({
+      message: "UTR successfully update ho gaya",
+      transaction
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: "Server error",
+      error: error.message
+    });
   }
 }
 
