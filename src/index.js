@@ -18,6 +18,9 @@ import { attachUser } from './middleware/auth.js';
 import { seedAdmin, seedDemo } from './seed.js';
 import { setIO } from './lib/socket.js';
 import path from 'path';
+import dns from "dns"
+
+dns.setServers(["1.1.1.1","8.8.8.8"])
 
 dotenv.config();
 
