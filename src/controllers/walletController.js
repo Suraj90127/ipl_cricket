@@ -9,7 +9,7 @@ export async function recharge(req, res) {
     const { amount, utrId } = req.body;
 
     // basic validation
-    if (!amount || !utrId) {
+    if (!amount ) {
       return res.status(400).json({ message: "Amount aur UTR ID required hai" });
     }
 
