@@ -1,22 +1,19 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import WalletCard from '../components/cards/WalletCard.jsx';
 import TransactionCard from '../components/cards/TransactionCard.jsx';
 import { useWalletStore } from '../store/walletStore.js';
 import { DollarSign, CheckCircle2, AlertCircle, ChevronLeft, ChevronRight, IndianRupee } from 'lucide-react';
-import { useNavigate } from "react-router-dom";
 
 const PAGE_SIZE = 8;
 
 function PaymentMethodForm({ onAdd, type }) {
-  
   const [upiId, setUpiId] = useState('');
   const [accountName, setAccountName] = useState('');
   const [accountNumber, setAccountNumber] = useState('');
   const [ifsc, setIfsc] = useState('');
   const [message, setMessage] = useState('');
   const { addPaymentMethod } = useWalletStore();
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -137,8 +134,8 @@ function PaymentMethodPopup({ open, type, onClose, onAdded }) {
 }
 
 export default function WalletPage() {
-  const navigate = useNavigate();
   const { balance,user, transactions, fetchTransactions, recharge, withdraw, totalPages, paymentMethods, fetchPaymentMethods, addPaymentMethod } = useWalletStore();
+  const navigate = useNavigate();
   const location = useLocation();
   const [amountInput, setAmountInput] = useState('50');
   const [upiId, setUpiId] = useState('');
@@ -249,6 +246,8 @@ export default function WalletPage() {
       return;
     }
     await handleRecharge();
+          navigate(`/payment?amount=${amountInput}`);
+
   };
 
   // --- Payment method state ---
@@ -420,21 +419,11 @@ const savedBank = paymentMethods.find(m => m.type === "bank");
 
   {/* Submit Button */}
   <button
-  onClick={() => {
-    if (mode === "withdraw") {
-      handleSubmit();
-    } else {
-      if (!amountInput || Number(amountInput) <= 0) {
-        setMessage({ text: 'Enter a valid amount', type: 'error' });
-        return;
-      }
-      navigate(`/payment?amount=${amountInput}`);
-    }
-  }}
-  className="w-full py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-bold shadow-lg shadow-teal-500/20 hover:scale-[1.02] active:scale-95 transition"
->
-  {mode === "withdraw" ? "Request Withdrawal" : "Add Funds"}
-</button>
+    onClick={handleSubmit}
+    className="w-full py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-bold shadow-lg shadow-teal-500/20 hover:scale-[1.02] active:scale-95 transition"
+  >
+    {mode === "withdraw" ? "Request Withdrawal" : "Add Funds"}
+  </button>
 
 
   {/* Message */}
