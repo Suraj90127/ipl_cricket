@@ -142,15 +142,20 @@ export default function PaymentPage() {
 
                 {/* PAY BUTTON (BACKEND LINK) */}
                 <button
-                    onClick={() => {
-                        if (qrData?.upiLink) {
-                            window.location.href = qrData.upiLink;
-                        } else {
-                            alert("Generate QR first");
+                    onClick={async () => {
+                        if (!qrData?.upiLink) {
+                            await generateQR(amount);
                         }
+
+                        // thoda delay taaki state update ho jaye
+                        setTimeout(() => {
+                            if (qrData?.upiLink) {
+                                window.location.href = qrData.upiLink;
+                            }
+                        }, 300);
                     }}
                     className="w-full text-center mb-4 py-2 rounded-xl 
-                                bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-semibold"
+  bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-semibold"
                 >
                     Pay via UPI App
                 </button>
