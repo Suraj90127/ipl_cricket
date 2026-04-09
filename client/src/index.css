@@ -57,12 +57,22 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-300 rounded-full;
+    @apply bg-slate-300 rounded-full h-5;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-slate-400;
   }
+
+  ::-webkit-scrollbar {
+  width: 6px;   /* 👈 vertical scrollbar thin */
+  height: 2px;  /* 👈 horizontal scrollbar thin */
+  margin-top: 5px;
+}
+  ::-webkit-scrollbar {
+  
+}
+
 }
 
 .VIpgJd-ZVi9od-ORHb-OEVmcd.skiptranslate{

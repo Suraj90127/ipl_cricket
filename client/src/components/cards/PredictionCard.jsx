@@ -144,21 +144,21 @@ export default function PredictionCard({ question, onSelect, disabled, match }) 
 
   return (
     <div
-      className={`bg-white border border-gray-100 rounded-xl shadow-sm p-4 relative ${disabled ? "opacity-60 pointer-events-none" : ""}`}
+      className={`bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl shadow-lg p-4 relative ${disabled ? "opacity-60 pointer-events-none" : ""}`}
     >
       {/* Header */}
       <div className="flex items-start mb-4">
         <div className="flex gap-2 flex-1 min-w-0 pr-20">
-          <div className="p-2 bg-indigo-50 text-indigo-500 rounded-lg">
+          <div className="p-2 bg-white/10 text-teal-400 rounded-xl border border-white/5">
             <HelpCircle size={18} />
           </div>
 
           <div className="min-w-0">
-            <p className="text-[11px] font-semibold text-gray-400 uppercase">
+            <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
               {question.categoryName}
             </p>
 
-            <h4 className="text-sm font-bold text-gray-800">
+            <h4 className="text-sm font-bold text-white leading-snug">
               {question.question}
             </h4>
           </div>
@@ -178,7 +178,7 @@ export default function PredictionCard({ question, onSelect, disabled, match }) 
           </span>
         ) : null}
 
-        <span className="text-[10px] h-[22px] font-semibold bg-gray-100 px-2 py-1 rounded text-gray-500">
+        <span className="text-[10px] h-[22px] font-semibold bg-white/10 px-2 py-1 rounded-lg text-white/50 border border-white/5">
           {question.status}
         </span>
       </div>
@@ -188,7 +188,7 @@ export default function PredictionCard({ question, onSelect, disabled, match }) 
         {question.options.map((opt, idx) => {
           const isSelected = selectedOpt?.label === opt.label;
           const baseBg =
-            idx === 0 ? "bg-green-50" : idx === 1 ? "bg-red-50" : "bg-gray-100";
+            idx === 0 ? "bg-emerald-500/10" : idx === 1 ? "bg-red-500/10" : "bg-white/5";
           return (
             <button
               key={opt.label}
@@ -196,17 +196,17 @@ export default function PredictionCard({ question, onSelect, disabled, match }) 
               disabled={!isBettingAllowed}
               className={`p-3 rounded-lg border text-center transition ${baseBg} ${
                 !isBettingAllowed
-                  ? 'opacity-60 cursor-not-allowed border-gray-200'
+                  ? 'opacity-60 cursor-not-allowed border-white/5'
                   : isSelected
-                  ? 'border-indigo-600'
-                  : 'border-gray-200 hover:border-indigo-400'
+                  ? 'border-teal-400 shadow-[0_0_15px_rgba(45,212,191,0.3)] bg-teal-400/20'
+                  : 'border-white/10 hover:border-teal-400/50'
               }`}
             >
-              <p className="font-bold text-sm">{opt.label}</p>
+              <p className={`font-bold text-sm ${isSelected ? 'text-teal-400' : 'text-white/80'}`}>{opt.label}</p>
 
               {opt.odds && (
-                <span className="flex justify-center items-center gap-1 text-xs text-indigo-500 mt-1">
-                  <TrendingUp size={12} /> {opt.odds}
+                <span className={`flex justify-center items-center gap-1 text-xs mt-1 font-mono ${isSelected ? 'text-teal-300' : 'text-teal-500/70'}`}>
+                  <TrendingUp size={10} /> {opt.odds}
                 </span>
               )}
             </button>
@@ -216,11 +216,11 @@ export default function PredictionCard({ question, onSelect, disabled, match }) 
 
       {/* Betting Section */}
       {selectedOpt && (
-        <div className="mt-4 border-t pt-4">
+        <div className="mt-4 border-t border-white/10 pt-4 animate-slide-up">
           <div className="flex justify-between text-xs mb-2">
-            <span className="font-semibold text-gray-500">Enter Amount</span>
+            <span className="font-semibold text-white/40">Enter Amount</span>
 
-            <span className="font-semibold text-indigo-600">
+            <span className="font-bold text-teal-400">
               {selectedOpt.label}
             </span>
           </div>
@@ -228,7 +228,7 @@ export default function PredictionCard({ question, onSelect, disabled, match }) 
           <div className="relative mb-3">
             <IndianRupee
               size={16}
-              className="absolute left-3 top-2.5 text-gray-400"
+              className="absolute left-3 top-2.5 text-white/30"
             />
 
             <input
@@ -236,37 +236,37 @@ export default function PredictionCard({ question, onSelect, disabled, match }) 
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Enter bet amount"
-              className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 focus:border-indigo-500 outline-none"
+              className="w-full pl-9 pr-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 focus:border-teal-400/50 outline-none transition"
             />
           </div>
 
           {/* Potential Win */}
           {selectedOpt.odds && amount > 0 && (
             <div className="flex justify-between text-xs mb-3">
-              <span className="text-gray-500">Potential Win</span>
+              <span className="text-white/40">Potential Win</span>
 
-              <span className="text-green-600 font-bold">
+              <span className="text-emerald-400 font-bold">
                 ₹ {(Number(amount) * Number(selectedOpt.odds)).toFixed(2)}
               </span>
             </div>
           )}
 
           {/* Buttons */}
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <button
               onClick={handleCancel}
-              className="flex-1 py-2 bg-gray-100 rounded-lg text-sm font-semibold hover:bg-gray-200"
+              className="flex-1 py-2.5 bg-white/5 border border-white/10 rounded-xl text-xs font-bold text-white/60 hover:bg-white/10 transition"
             >
-              <X size={14} className="inline mr-1" />
+              <X size={12} className="inline mr-1" />
               Cancel
             </button>
 
             <button
               onClick={handleSubmit}
               disabled={!isBettingAllowed || !amount || Number(amount) <= 0}
-              className="flex-1 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50"
+              className="flex-1 py-2.5 bg-gradient-to-r from-teal-500 to-cyan-500 text-black rounded-xl text-xs font-bold shadow-lg shadow-teal-500/20 disabled:opacity-30 transition transform active:scale-95"
             >
-              <Check size={14} className="inline mr-1" />
+              <Check size={12} className="inline mr-1" />
               Place Bet
             </button>
           </div>

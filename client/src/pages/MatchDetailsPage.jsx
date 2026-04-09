@@ -141,20 +141,20 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
   const isLive = selectedMatch?.status?.toLowerCase() === 'live';
 
   return (
-    <div className="space-y-6 pt-2">
+    <div className="space-y-6 pt-2 min-h-screen bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] -mx-4 px-4">
       {selectedMatch && (
-        <div className="p-4 rounded-3xl premium-card group relative overflow-hidden bg-orange-100 border border-slate-100 mb-6">
-          <div className="absolute top-0 left-0 w-32 h-32 bg-accent/5 rounded-full -ml-10 -mt-10 blur-2xl"></div>
+        <div className="p-4 rounded-3xl group relative overflow-hidden bg-white/5 border border-white/10 backdrop-blur-xl mb-6 shadow-lg">
+          <div className="absolute top-0 left-0 w-32 h-32 bg-teal-500/10 rounded-full -ml-10 -mt-10 blur-2xl"></div>
           
           <div className="flex items-center justify-between mb-4 relative z-10">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest bg-slate-100 px-3 py-1.5 rounded-lg">
+            <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest bg-white/10 px-3 py-1.5 rounded-lg">
               Match Info
             </span>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1.5 rounded-lg border border-indigo-100 uppercase tracking-wider">
+              <span className="text-[10px] font-bold text-teal-400 bg-teal-400/10 px-2 py-1.5 rounded-lg border border-teal-400/20 uppercase tracking-wider">
                 Bal: ₹{balance.toFixed(2)}
               </span>
-              <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg flex items-center gap-1.5 ${isLive ? 'bg-red-50 text-red-500' : 'bg-slate-50 text-slate-500'}`}>
+              <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg flex items-center gap-1.5 ${isLive ? 'bg-red-500/20 text-red-400' : 'bg-white/10 text-white/50'}`}>
                 {isLive && <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>}
                 {selectedMatch.status}
               </span>
@@ -166,7 +166,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
   {/* Team A */}
   <div className="flex flex-col items-center w-1/3">
 
-    <div className="w-16 h-16 p-1 rounded-full bg-blue-200 border border-blue-600 shadow-sm hover:shadow-md transition">
+    <div className="w-16 h-16 p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur shadow-sm hover:scale-105 transition">
       <img
         src={selectedMatch.teamALogo}
         alt={selectedMatch.teamA}
@@ -174,7 +174,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
       />
     </div>
 
-    <h2 className="mt-2 text-sm font-semibold text-gray-800 text-center">
+    <h2 className="mt-2 text-sm font-semibold text-white text-center">
       {selectedMatch.teamA}
     </h2>
 
@@ -186,16 +186,16 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
 
   {(selectedMatch.teamAScore || selectedMatch.teamBScore) ? (
     <div className="flex flex-col items-center justify-center ">
-      <span className="px-2 py-1 mb-1 rounded-lg text-sm font-bold  bg-red-600 text-white">
+      <span className="px-2 py-1 mb-1 rounded-lg text-sm font-bold  bg-white/10 text-white border border-white/10">
         {selectedMatch.teamAScore || '-'}
       </span>
-      <span className="px-2 py-1 rounded-lg text-xs font-bold  bg-blue-600 text-white">
+      <span className="px-2 py-1 rounded-lg text-xs font-bold  bg-white/10 text-white border border-white/10">
         {selectedMatch.teamBScore || '-'}
       </span>
     </div>
   ) : (
-    <div className="flex items-center justify-center w-16 h-8 rounded-full 
-    bg-gray-100 text-gray-500 font-bold text-xs border border-gray-200">
+    <div className="flex items-center justify-center w-16 h-8 rounded-full shadow-lg
+    bg-white/5 text-white/40 font-bold text-xs border border-white/10">
       VS
     </div>
   )}
@@ -206,7 +206,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
   {/* Team B */}
   <div className="flex flex-col items-center w-1/3">
 
-    <div className="w-16 h-16 p-1 rounded-full bg-red-200 border border-red-600 shadow-sm hover:shadow-md transition">
+    <div className="w-16 h-16 p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur shadow-sm hover:scale-105 transition">
       <img
         src={selectedMatch.teamBLogo}
         alt={selectedMatch.teamB}
@@ -214,7 +214,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
       />
     </div>
 
-    <h2 className="mt-2 text-sm font-semibold text-gray-800 text-center">
+    <h2 className="mt-2 text-sm font-semibold text-white text-center">
       {selectedMatch.teamB}
     </h2>
 
@@ -233,7 +233,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
         </div>
       )}
 
-  <div className="bg-white p-3 rounded-xl border border-gray-100 shadow-sm">
+  <div className="bg-white/5 backdrop-blur-xl p-3 rounded-2xl border border-white/10 shadow-lg">
 
     <div className="flex gap-2 overflow-x-auto scrollbar-hide">
 
@@ -243,8 +243,8 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
           onClick={() => setActiveCategory(category)}
           className={`px-4 py-2 text-xs font-semibold rounded-full whitespace-nowrap transition ${
             activeCategory === category
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'bg-gray-100 text-gray-600 hover:bg-indigo-50 hover:text-indigo-600'
+              ? 'bg-gradient-to-r from-teal-500 to-cyan-500 text-black shadow'
+              : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
           }`}
         >
           {category}
@@ -258,7 +258,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
         type="button"
         onClick={() => setStatusFilter('open')}
         className={`px-3 py-1 text-xs font-semibold rounded-full ${
-          statusFilter === 'open' ? 'bg-emerald-600 text-white' : 'bg-gray-100 text-gray-600'
+          statusFilter === 'open' ? 'bg-emerald-500 text-black shadow-lg' : 'bg-white/5 text-white/40'
         }`}
       >
         Open
@@ -268,7 +268,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
         type="button"
         onClick={() => setStatusFilter('closed')}
         className={`px-3 py-1 text-xs font-semibold rounded-full ${
-          statusFilter === 'closed' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600'
+          statusFilter === 'closed' ? 'bg-red-500 text-white' : 'bg-white/5 text-white/40'
         }`}
       >
         Closed
@@ -289,7 +289,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
           ))
         ) : (
           <div className="text-center py-10 opacity-60">
-            <p className="text-slate-500 font-medium">No predictions available for {activeCategory}.</p>
+            <p className="text-white/40 font-medium">No predictions available for {activeCategory}.</p>
           </div>
         )}
       </div>

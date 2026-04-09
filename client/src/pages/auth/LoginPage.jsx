@@ -1,110 +1,110 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useAuthStore } from '../../store/authStore.js';
-import { ShieldCheck, ArrowRight, Loader } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { LogIn, Phone, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 
 export default function LoginPage() {
-  const navigate = useNavigate();
-  const { login, token, loadUserFromToken } = useAuthStore();
-  const [form, setForm] = useState({ phone: '', password: '' });
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Only load user from token on mount
-  useEffect(() => {
-    loadUserFromToken();
-    // eslint-disable-next-line
-  }, []);
-
-  // Navigate when token changes and is not null
-  useEffect(() => {
-    if (token) navigate('/');
-  }, [token, navigate]);
+  const { login } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setLoading(true);
+
+    const payload = {
+      phone,
+      password
+    };
+
     try {
-      await login(form);
+      await login(payload);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message ?? 'Login failed');
+      setError(err.response?.data?.message || 'Invalid credentials1111');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center px-4 relative overflow-hidden">
-      {/* Decorative background Elements */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent/10 rounded-full blur-[120px] pointer-events-none -mr-40 -mt-20"></div>
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none -ml-40 -mb-20"></div>
+    <div className="min-h-screen bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Glow Effects */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-teal-400/10 blur-[100px] rounded-full"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-400/10 blur-[100px] rounded-full"></div>
 
-      <div className="max-w-[400px] w-full mx-auto relative z-10 animate-fade-in">
-        <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-white rounded-2xl shadow-soft flex items-center justify-center mx-auto mb-6 relative group">
-            <div className="absolute inset-0 bg-accent/20 rounded-2xl blur group-hover:bg-accent/30 transition-all"></div>
-            <ShieldCheck size={32} className="text-accent relative z-10" />
-          </div>
-          <h1 className="text-3xl font-black text-slate-800 tracking-tight">Welcome Back</h1>
-          <p className="text-slate-500 text-sm mt-3 font-medium">Log in to enter the prediction arena</p>
-        </div>
-        
-        <form onSubmit={handleSubmit} className="glass p-6 sm:p-8 rounded-[2rem] shadow-premium border border-white/60 space-y-5">
-          <Input
-            label="Phone"
-            value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            placeholder="Enter your phone number"
-          />
-          <Input
-            label="Password"
-            type="password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            placeholder="Enter your password"
-          />
-
-          {error && (
-            <div className="bg-red-50 text-red-600 text-sm font-semibold p-3 rounded-xl border border-red-100 text-center animate-fade-in">
-              {error}
+      <div className="w-full max-w-md relative z-10">
+        <div className="text-center mb-8 text-white">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-gradient-to-br from-teal-500 to-cyan-500 p-[2px] mb-4 shadow-lg shadow-teal-500/20">
+            <div className="w-full h-full bg-[#0b1220] rounded-[22px] flex items-center justify-center">
+              <LogIn size={32} className="text-teal-400" />
             </div>
-          )}
-
-          <button
-            type="submit"
-            className="w-full btn-primary py-3.5 mt-2 text-base font-bold shadow-float group"
-            disabled={loading}
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2"><Loader className="animate-spin" size={20} /> Authenticating...</span>
-            ) : (
-              <span className="flex items-center justify-center gap-2">Login to Account <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" /></span>
-            )}
-          </button>
-        </form>
-        
-        <div className="text-center mt-8 text-sm font-medium text-slate-600">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-accent font-bold hover:underline decoration-2 underline-offset-4">
-            Create an account
-          </Link>
+          </div>
+          <h1 className="text-3xl font-black tracking-tight">Welcome Back</h1>
+          <p className="text-white/40 font-medium mt-2">Sign in to start placing your bets</p>
         </div>
+
+        <div className="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-[2.5rem] p-8 shadow-2xl">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Phone Number</label>
+              <div className="relative group">
+                <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-teal-400 transition-colors" />
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Enter phone number"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/10 focus:border-teal-400/50 focus:ring-4 focus:ring-teal-400/5 outline-none transition-all"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Password</label>
+              <div className="relative group">
+                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-teal-400 transition-colors" />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter password"
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-4 text-white placeholder-white/10 focus:border-teal-400/50 focus:ring-4 focus:ring-teal-400/5 outline-none transition-all"
+                  required
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 flex items-center gap-3 text-red-400 text-sm font-bold">
+                <AlertCircle size={18} />
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-bold py-4 rounded-2xl shadow-xl shadow-teal-500/20 hover:scale-[1.02] active:scale-95 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+            >
+              {loading ? 'Authenticating...' : 'Sign In'}
+              {!loading && <ArrowRight size={18} />}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center mt-8 text-white/40 text-sm font-bold">
+          Don't have an account?{' '}
+          <Link to="/signup" className="text-teal-400 hover:underline">
+            Create Account
+          </Link>
+        </p>
       </div>
     </div>
-  );
-}
-
-function Input({ label, type = 'text', ...rest }) {
-  return (
-    <label className="block space-y-2">
-      <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest ml-1">{label}</span>
-      <input
-        type={type}
-        className="w-full bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-accent focus:ring-4 focus:ring-accent/10 outline-none transition-all shadow-sm"
-        {...rest}
-      />
-    </label>
   );
 }

@@ -21,12 +21,12 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div style={{ position: "fixed", top: 18, right: 10, zIndex: 1000, display: "flex", alignItems: "center",   borderRadius: "10px"}}>
+    <div style={{ position: "fixed", top: 18, right: 10, zIndex: 1000, display: "flex", alignItems: "center", borderRadius: "10px" }}>
       <button
         onClick={toggleLang}
-        style={{ padding: "6px 12px", borderRadius: "6px",   color: "#f9fafb", cursor: "pointer", }}
+        style={{ padding: "6px 14px", borderRadius: "10px", color: "#000", background: "linear-gradient(to right, #14b8a6, #06b6d4)", fontWeight: "bold", fontSize: "12px", cursor: "pointer", border: "none", boxShadow: "0 0 15px rgba(20, 184, 166, 0.3)" }}
       >
-        {lang === "en" ? "Hindi" : "English"||"Hindi"}
+        {lang === "en" ? "हिन्दी" : "English"}
       </button>
     </div>
   );

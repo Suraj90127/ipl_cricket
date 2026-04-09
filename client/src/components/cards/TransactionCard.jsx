@@ -5,21 +5,21 @@ export default function TransactionCard({ tx }) {
   const isCredit = tx.amount > 0;
   
   return (
-    <div className="flex items-center justify-between p-4 rounded-2xl premium-card bg-white border border-slate-100 mb-3">
+    <div className="flex items-center justify-between p-4 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl mb-3 shadow-lg hover:bg-white/10 transition-colors">
       <div className="flex items-center gap-3">
-        <div className={`p-2.5 rounded-full ${isCredit ? 'bg-emerald-50 text-emerald-500' : 'bg-red-50 text-red-500'}`}>
+        <div className={`p-2.5 rounded-2xl border border-white/5 ${isCredit ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
           {isCredit ? <ArrowDownLeft size={18} /> : <ArrowUpRight size={18} />}
         </div>
         <div>
-          <p className="font-bold text-slate-800 capitalize leading-tight">{tx.type}</p>
-          <p className="text-[11px] font-medium text-slate-400 mt-0.5">{format.dateTime(tx.date)}</p>
+          <p className="font-bold text-white capitalize leading-tight">{tx.type}</p>
+          <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest mt-1">{format.dateTime(tx.date)}</p>
         </div>
       </div>
       <div className="text-right">
-        <p className={`font-bold text-base ${isCredit ? 'text-emerald-500' : 'text-slate-800'}`}>
+        <p className={`font-bold text-lg tracking-tight ${isCredit ? 'text-emerald-400' : 'text-white'}`}>
           {isCredit ? '+' : '-'}₹{Math.abs(tx.amount).toFixed(2)}
         </p>
-        <p className={`text-[10px] font-bold uppercase tracking-widest mt-0.5 ${tx.status === 'completed' ? 'text-slate-400' : 'text-amber-500'}`}>
+        <p className={`text-[10px] font-bold uppercase tracking-widest mt-1 ${tx.status === 'completed' || tx.status === 'done' || tx.status === 'approved' ? 'text-emerald-400/60' : 'text-amber-400'}`}>
           {tx.status}
         </p>
       </div>

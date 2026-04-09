@@ -7,10 +7,10 @@ import PaymentMethod from '../models/PaymentMethod.js';
 export async function recharge(req, res) {
   const { amount } = req.body;
   const user = await User.findById(req.userId);
-  user.balance += Number(amount);
-  await user.save();
-  await RechargeHistory.create({ userId: user._id, amount, status: 'done', date: new Date() });
-  const transaction = await Transaction.create({ userId: user._id, amount, type: 'recharge', status: 'done' });
+  // user.balance += Number(amount);
+  // await user.save();
+  await RechargeHistory.create({ userId: user._id, amount, status: 'pending', date: new Date() });
+  const transaction = await Transaction.create({ userId: user._id, amount, type: 'recharge', status: 'pending' });
   res.json({ balance: user.balance, transaction });
 }
 
