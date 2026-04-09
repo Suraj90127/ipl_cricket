@@ -19,7 +19,6 @@ export async function recharge(req, res) {
     await RechargeHistory.create({
       userId: user._id,
       amount,
-      utrId, // 👈 added
       status: 'pending',
       date: new Date()
     });
@@ -29,7 +28,6 @@ export async function recharge(req, res) {
       userId: user._id,
       amount,
       type: 'recharge',
-      utrId, // 👈 added
       status: 'pending'
     });
 
@@ -56,7 +54,6 @@ export async function updateRechargeUTR(req, res) {
     const transaction = await Transaction.findOne({
       userId: req.userId,
       type: "recharge",
-      utrId: null
     }).sort({ createdAt: -1 });
 
     if (!transaction) {
@@ -74,7 +71,7 @@ export async function updateRechargeUTR(req, res) {
     await RechargeHistory.findOneAndUpdate(
       {
         userId: req.userId,
-        utrId: null
+
       },
       {
         utrId

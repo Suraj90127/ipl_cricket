@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Copy } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUpiStore } from "../../store/useUpiStore";
+import { useUtrStore } from "../../store/useUtrStore";
 
 export default function PaymentPage() {
+  const { submitUTR, utrLoading, utrMessage } = useUtrStore();
   const [utr, setUtr] = useState("");
   const [upiId, setUpiId] = useState("8630032980@upi");
   const [timeLeft, setTimeLeft] = useState(480);
@@ -53,10 +55,16 @@ export default function PaymentPage() {
     navigator.clipboard.writeText(text);
   };
 
-  const handleSubmit = () => {
-    if (!utr) return alert("Please enter UTR ID");
-    alert("Payment submitted: " + utr);
-  };
+  const handleSubmit = async () => {
+  if (!utr) return alert("Please enter UTR ID");
+
+  const res = await submitUTR(utr);
+
+  if (res) {
+    alert(res.message || "UTR submitted successfully");
+    navigate("/wallet");
+  }
+};
 
   return (
     <div className="min-h-screen px-4 pb-10 
@@ -145,8 +153,6 @@ export default function PaymentPage() {
           Transfer Details
         </h3>
 
-        
-
         {/* Amount */}
         <div className="mb-4">
           <p className="text-xs text-white/50 mb-1">Amount</p>
@@ -174,12 +180,14 @@ export default function PaymentPage() {
             />
 
             <button
-              onClick={handleSubmit}
-              className="px-4 py-2 rounded-xl 
-              bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-semibold"
-            >
-              Submit
-            </button>
+  onClick={handleSubmit}
+  disabled={utrLoading}
+  className="px-4 py-2 rounded-xl 
+  bg-gradient-to-r from-teal-500 to-cyan-500 
+  text-black font-semibold disabled:opacity-50"
+>
+  {utrLoading ? "Submitting..." : "Submit"}
+</button>
           </div>
         </div>
 

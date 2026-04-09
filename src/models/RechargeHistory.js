@@ -10,7 +10,6 @@ const rechargeHistorySchema = new mongoose.Schema(
       type: String,
       unique: true,
       sparse: true,
-      default: null // ✅ correct
     }
   },
   { timestamps: true }
