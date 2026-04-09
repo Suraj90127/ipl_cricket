@@ -93,12 +93,12 @@ export default function PaymentPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                     <button className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-                        <img src="/paytm.png" className="w-6 h-6" />
+                        <img src="https://i.ibb.co/v64348jF/paytmimg.jpg" className="w-6 h-6" />
                         <span className="text-sm font-semibold">Paytm</span>
                     </button>
 
                     <button className="flex items-center gap-2 p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
-                        <img src="/phonepe.png" className="w-6 h-6" />
+                        <img src="https://i.ibb.co/pBK859jF/phonepe-icon.webp" className="w-6 h-6" />
                         <span className="text-sm font-semibold">PhonePe</span>
                     </button>
                 </div>
