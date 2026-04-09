@@ -15,7 +15,6 @@ export async function attachUser(req, _res, next) {
 }
 
 export function requireAuth(req, res, next) {
-  console.log("kkkk",req.userId)
   if (!req.userId) return res.status(401).json({ message: 'Unauthorized' });
   next();
 }
