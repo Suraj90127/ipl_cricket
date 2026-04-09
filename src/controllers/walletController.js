@@ -5,13 +5,42 @@ import WithdrawHistory from '../models/WithdrawHistory.js';
 import PaymentMethod from '../models/PaymentMethod.js';
 
 export async function recharge(req, res) {
-  const { amount } = req.body;
-  const user = await User.findById(req.userId);
-  // user.balance += Number(amount);
-  // await user.save();
-  await RechargeHistory.create({ userId: user._id, amount, status: 'pending', date: new Date() });
-  const transaction = await Transaction.create({ userId: user._id, amount, type: 'recharge', status: 'pending' });
-  res.json({ balance: user.balance, transaction });
+  try {
+    const { amount, utrId } = req.body;
+
+    // basic validation
+    if (!amount || !utrId) {
+      return res.status(400).json({ message: "Amount aur UTR ID required hai" });
+    }
+
+    const user = await User.findById(req.userId);
+
+    // Recharge history me utrId add
+    await RechargeHistory.create({
+      userId: user._id,
+      amount,
+      utrId, // 👈 added
+      status: 'pending',
+      date: new Date()
+    });
+
+    // Transaction me bhi utrId add kar sakte ho
+    const transaction = await Transaction.create({
+      userId: user._id,
+      amount,
+      type: 'recharge',
+      utrId, // 👈 added
+      status: 'pending'
+    });
+
+    res.json({
+      balance: user.balance,
+      transaction
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
 }
 
 export async function withdraw(req, res) {
@@ -24,24 +53,24 @@ export async function withdraw(req, res) {
   let selectedAccNo = '';
   let selectedIfsc = '';
 
-  
+
 
   // If no details in body, try to get from saved payment methods
   if (method === 'upi') {
-  
-      const upiMethod = await PaymentMethod.findOne({ user: req.userId, type: 'upi' });
-      if (upiMethod) selectedUpi = upiMethod.upiId;
-    
+
+    const upiMethod = await PaymentMethod.findOne({ user: req.userId, type: 'upi' });
+    if (upiMethod) selectedUpi = upiMethod.upiId;
+
   }
   if (method === 'bank') {
-   
-      const bankMethod = await PaymentMethod.findOne({ user: req.userId, type: 'bank' });
-      if (bankMethod) {
-        selectedAccName = bankMethod.accountName;
-        selectedAccNo = bankMethod.accountNumber;
-        selectedIfsc = bankMethod.ifsc;
-      }
-    
+
+    const bankMethod = await PaymentMethod.findOne({ user: req.userId, type: 'bank' });
+    if (bankMethod) {
+      selectedAccName = bankMethod.accountName;
+      selectedAccNo = bankMethod.accountNumber;
+      selectedIfsc = bankMethod.ifsc;
+    }
+
   }
 
   if (method === 'upi') {
