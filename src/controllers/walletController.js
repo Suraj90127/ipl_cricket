@@ -68,16 +68,20 @@ export async function updateRechargeUTR(req, res) {
     await transaction.save();
 
     // recharge history bhi update karo
-    await RechargeHistory.findOneAndUpdate(
+     const rechargehistory = await RechargeHistory.findOne(
       {
         userId: req.userId,
+        type: "recharge",
+      },
+    ).sort({ createdAt: -1 });
 
-      },
-      {
-        utrId
-      },
-      { sort: { createdAt: -1 } }
-    );
+    rechargehistory.utrId =utrId
+    rechargehistory.status ="pending"
+
+    await rechargehistory.save()
+
+
+    console.log(rechargehistory)
 
     res.json({
       message: "UTR successfully update ho gaya",
