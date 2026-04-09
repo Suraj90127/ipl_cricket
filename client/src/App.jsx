@@ -31,6 +31,7 @@ import AdminSettings from './pages/admin/AdminSettings.jsx';
 import AdminTemplatesManager from './pages/admin/AdminTemplatesManager.jsx';
 import LanguageSwitcher from "./LanguageSwitcher";
 import { applyStoredLanguage } from "./utils/autoTranslate";
+import PaymentPage from './pages/auth/PaymentPage.jsx';
 
 export default function App() {
   const { loadUserFromToken } = useAuthStore();
@@ -57,6 +58,15 @@ export default function App() {
             
             }
           />
+
+          <Route
+  path="/payment"
+  element={
+    <ProtectedRoute>
+      <PaymentPage />
+    </ProtectedRoute>
+  }
+/>
           <Route
             path="/dashboard"
             element={
