@@ -41,6 +41,7 @@ export const generateUserDepositUpiQR = async (req, res) => {
       transactionId: txnId,
       upiLink,
       qrImage,
+      upiId,
     });
   } catch (err) {
     console.error(err);
