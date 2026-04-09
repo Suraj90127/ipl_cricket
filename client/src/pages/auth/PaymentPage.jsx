@@ -3,7 +3,6 @@ import { Copy } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useUpiStore } from "../../store/useUpiStore";
 import { useUtrStore } from "../../store/useUtrStore";
-import { log } from "node:console";
 
 export default function PaymentPage() {
   const { submitUTR, utrLoading, utrMessage } = useUtrStore();
