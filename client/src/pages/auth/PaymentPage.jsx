@@ -7,14 +7,14 @@ import { useUtrStore } from "../../store/useUtrStore";
 export default function PaymentPage() {
   const { submitUTR, utrLoading, utrMessage } = useUtrStore();
   const [utr, setUtr] = useState("");
-  const [upiId, setUpiId] = useState("8630032980@upi");
   const [timeLeft, setTimeLeft] = useState(480);
-
+  
   const navigate = useNavigate();
   const { generateQR, qrData, loading } = useUpiStore();
+  const [upiId, setUpiId] = useState("7983247157@ptyes");
 
 
-  // console.log("Select Payment Method0", qrData);
+  console.log("Select Payment Method0", qrData);
 
 
   const location = useLocation();
@@ -24,8 +24,11 @@ export default function PaymentPage() {
 
   const paymentMethod = (type) => {
     console.log("paymentMethod111",type);
-    
 
+    if (type === "paytm") {
+      // window.location.href  = `paytmmp://cash_wallet?pa=${upiId}&pn=null&cu=INR&tn=&am=500.00&featuretype=money_transfer`
+      window.location.href = `paytmmp://cash_wallet?pa=${upiId}&pn=null&cu=INR&tn=&am=${amount}.00&featuretype=money_transfer`;
+    }
 
   } // default to paytm if not specified
 
