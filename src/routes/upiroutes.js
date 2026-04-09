@@ -1,15 +1,17 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express from "express";
+import {
   getUpiDetails,
   updateUpiDetails,
-} = require("../controllers/adminUpiController");
-const protect = require("../middlewares/authMiddleware");
+} from "../controllers/adminUpiController";
+
+const router = express.Router();
+
+import { requireAuth } from '../middleware/auth.js';
 
 // Public route (user fetch kare)
-router.get("/upi",protect, getUpiDetails);
+router.get("/upi", requireAuth, getUpiDetails);
 
 // Admin route
-router.put("/admin/upi", protect, updateUpiDetails);
+router.put("/admin/upi", requireAuth, updateUpiDetails);
 
-module.exports = router;
+export default router;

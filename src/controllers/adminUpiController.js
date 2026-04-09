@@ -1,7 +1,7 @@
-const UpiSettings = require("../models/upiSettingsModel");
+import UpiSettings from "../models/upiSettingsModel.js";
 
 // Get UPI Details
-exports.getUpiDetails = async (req, res) => {
+export const getUpiDetails = async (req, res) => {
   try {
     const upi = await UpiSettings.findOne();
 
@@ -25,7 +25,7 @@ exports.getUpiDetails = async (req, res) => {
 };
 
 // Create or Update UPI (Admin)
-exports.updateUpiDetails = async (req, res) => {
+export const updateUpiDetails = async (req, res) => {
   try {
     const { upiId, upiName } = req.body;
 

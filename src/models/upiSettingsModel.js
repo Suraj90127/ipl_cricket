@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const upiSettingsSchema = new mongoose.Schema(
   {
@@ -14,4 +14,6 @@ const upiSettingsSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("UpiSettings", upiSettingsSchema);
+const UpiSettings = mongoose.model("UpiSettings", upiSettingsSchema);
+
+export default UpiSettings;
