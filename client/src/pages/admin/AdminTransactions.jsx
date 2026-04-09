@@ -25,7 +25,7 @@ export default function AdminTransactions() {
     setLoading(true);
     adminService.getTransactions({ type: type === 'all' ? '' : type, status, page, limit: PAGE_SIZE })
       .then((data) => { setTxns(data.transactions ?? []); setTotalPages(data.totalPages ?? 1); })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   };
 
@@ -64,7 +64,7 @@ export default function AdminTransactions() {
                   <th className="text-center px-4 py-3">Type</th>
                   <th className="text-right px-4 py-3">Amount</th>
                   <th className="text-center px-4 py-3">Status</th>
-                  <th className="text-left px-4 py-3">Note</th>
+                  <th className="text-left px-4 py-3">UTR</th>
                   <th className="text-right px-4 py-3">Date</th>
                 </tr>
               </thead>
@@ -81,7 +81,14 @@ export default function AdminTransactions() {
                     <td className="px-4 py-3 text-center">
                       <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase ${STATUS_COLORS[t.status] || 'bg-slate-100 text-slate-400'}`}>{t.status}</span>
                     </td>
-                    <td className="px-4 py-3 text-slate-400 text-xs max-w-[140px] truncate">{t.description || t.note || '—'}</td>
+                    <td className="px-4 py-3 text-slate-400 text-xs max-w-[180px]">
+                      {t.utrId ? (
+                        <span className=" text-black font-bold">{t.utrId}</span>
+                      ) : (
+                        <span className="text-slate-400">N/A</span>
+                      )}
+
+                    </td>
                     <td className="px-4 py-3 text-right text-slate-400 text-xs whitespace-nowrap">{format.dateTime(t.createdAt)}</td>
                   </tr>
                 ))}
