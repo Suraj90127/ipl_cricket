@@ -6,7 +6,7 @@ import PaymentMethod from '../models/PaymentMethod.js';
 
 export async function recharge(req, res) {
   try {
-    const { amount, utrId } = req.body;
+    const { amount, } = req.body;
 
     // basic validation
     if (!amount) {
