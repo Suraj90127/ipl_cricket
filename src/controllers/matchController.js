@@ -14,8 +14,24 @@ export async function getMatch(req, res) {
 }
 
 export async function createMatch(req, res) {
-  const match = await Match.create(req.body);
-  res.json(match);
+  try {
+    const { matchTime, ...rest } = req.body;
+
+    const match = await Match.create({
+      ...rest,
+      matchTime: new Date(matchTime) // ✅ ensure proper UTC conversion
+    });
+
+    res.json({
+      ...match._doc,
+      matchTime: new Date(match.matchTime).toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata"
+      })
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 }
 
 export async function liveScores(_req, res) {
