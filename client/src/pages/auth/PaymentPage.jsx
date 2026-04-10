@@ -11,7 +11,7 @@ export default function PaymentPage() {
   
   const navigate = useNavigate();
   const { generateQR, qrData, loading } = useUpiStore();
-  const [upiId, setUpiId] = useState("7983247157@ptyes");
+  // const [upiId, setUpiId] = useState("7983247157@ptyes");
 
 
   // console.log("Select Payment Method0", qrData);
@@ -29,7 +29,7 @@ const paymentMethod = (type) => {
           cbnName: "",
           nickName: "",
           type: "VPA",
-          vpa: upiId,
+          vpa: qrData?.upiId,
         },
         p2pPaymentCheckoutParams: {
           checkoutType: "DEFAULT",
