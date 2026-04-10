@@ -45,18 +45,18 @@ const UpiSettingsPage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
+        <div className="bg-white text-black flex px-4 min-h-screen">
             <div className="w-full max-w-md bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur">
 
                 <h2 className="text-xl font-bold mb-6 text-center">
                     Update UPI Details
                 </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 ">
 
                     {/* UPI ID */}
                     <div>
-                        <label className="text-xs text-white/50 block mb-1">
+                        <label className="text-xs text-black/50 block mb-1">
                             UPI ID
                         </label>
                         <input
@@ -65,13 +65,13 @@ const UpiSettingsPage = () => {
                             value={formData.upiId}
                             onChange={handleChange}
                             placeholder="example@upi"
-                            className="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/10 outline-none focus:border-teal-400"
+                            className="w-full px-4 py-2 rounded-xl bg-black/10 border border-white/10 outline-none focus:border-teal-400"
                         />
                     </div>
 
                     {/* UPI Name */}
                     <div>
-                        <label className="text-xs text-white/50 block mb-1">
+                        <label className="text-xs text-black/50 block mb-1">
                             UPI Name
                         </label>
                         <input
@@ -80,7 +80,7 @@ const UpiSettingsPage = () => {
                             value={formData.upiName}
                             onChange={handleChange}
                             placeholder="Your Name"
-                            className="w-full px-4 py-2 rounded-xl bg-white/10 border border-white/10 outline-none focus:border-teal-400"
+                            className="w-full px-4 py-2 rounded-xl bg-black/10 border border-white/10 outline-none focus:border-teal-400"
                         />
                     </div>
 
