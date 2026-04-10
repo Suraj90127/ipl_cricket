@@ -4,6 +4,8 @@ import { Clock } from "lucide-react";
 
 export default function MatchCard({ match }) {
   const isLive = match.status?.toLowerCase() === "live";
+  const isUpcoming = match.status?.toLowerCase() === "upcoming";
+  // console.log("match", match);
 
 
   const getShortName = (name) => {

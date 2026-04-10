@@ -34,7 +34,7 @@ export default function DashboardPage() {
   }, [user]);
 
   return (
-    <div className="space-y-6 px-4 min-h-screen 
+    <div className="space-y-6 px-4 min-h-screen pb-28
     bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] relative overflow-hidden">
 
       {/* Glow */}
@@ -111,7 +111,7 @@ export default function DashboardPage() {
           )}
 
           {totalPages > 1 && (
-            <div className="flex items-center justify-end gap-2 pt-1">
+            <div className="flex items-center justify-center gap-2 pt-1">
 
               <button
                 onClick={() => setBetsPage((p) => Math.max(1, p - 1))}

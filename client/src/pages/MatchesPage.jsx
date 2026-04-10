@@ -98,6 +98,9 @@ export default function MatchesPage() {
       m.teamB.toLowerCase().includes(search.toLowerCase()),
   );
 
+  // console.log("matches", matches);
+
+
   return (
     <div className="min-h-screen pb-10 px-4 
     bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] relative overflow-hidden">
@@ -107,7 +110,7 @@ export default function MatchesPage() {
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-cyan-400/10 blur-3xl rounded-full"></div>
 
       {/* Search */}
-      <div className="sticky top-0 z-20 backdrop-blur-xl bg-black/20 py-3">
+      {/* <div className="sticky top-0 z-20 backdrop-blur-xl py-3">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <Search size={18} className="text-white/40" />
@@ -120,7 +123,7 @@ export default function MatchesPage() {
             className="w-full bg-white/5 border border-white/10 backdrop-blur-xl rounded-2xl pl-12 pr-4 py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-teal-400/40"
           />
         </div>
-      </div>
+      </div> */}
 
       {banner.bannerEnabled && (banner.bannerText || banner.bannerImageUrl) ? (
         <div className="mt-4">
@@ -190,6 +193,10 @@ export default function MatchesPage() {
             <MatchCard key={match._id} match={match} />
           ))}
 
+          {filteredMatches.map((match) => (
+            <MatchCard key={match._id} match={match} />
+          ))}
+
           {!filteredMatches.length && (
             <div className="flex flex-col items-center justify-center py-16 text-center rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
               <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4 text-white/30">
@@ -203,7 +210,7 @@ export default function MatchesPage() {
           )}
 
           {/* Leaderboard */}
-          <section className="space-y-4 pt-4">
+          <section className="space-y-4 pt-4 pb-20">
             <div className="flex items-center justify-between px-1">
               <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Trophy size={20} className="text-yellow-400" />
@@ -214,7 +221,7 @@ export default function MatchesPage() {
               </span>
             </div>
 
-            <div className="overflow-hidden h-[350px]">
+            <div className="overflow-hidden h-[370px]">
               <motion.div
                 key={leaderboard[0]?.name}
                 initial={{ y: -80 }}

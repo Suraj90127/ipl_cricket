@@ -141,7 +141,7 @@ const handleSelect = async (opt, amount, status, odds, questionId) => {
   const isLive = selectedMatch?.status?.toLowerCase() === 'live';
 
   return (
-    <div className="space-y-6 pt-2 min-h-screen bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] -mx-4 px-4">
+    <div className="space-y-6 pt-2 min-h-screen bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] px-4">
       {selectedMatch && (
         <div className="p-4 rounded-3xl group relative overflow-hidden bg-white/5 border border-white/10 backdrop-blur-xl mb-6 shadow-lg">
           <div className="absolute top-0 left-0 w-32 h-32 bg-teal-500/10 rounded-full -ml-10 -mt-10 blur-2xl"></div>

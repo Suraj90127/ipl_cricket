@@ -102,7 +102,7 @@ export default function ProfilePage() {
    window.scrollTo(0, 0);
   }, [user]);
   return (
-    <div className="space-y-6 pt-2 bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] -mx-4 px-4 pb-20 relative overflow-hidden">
+    <div className="space-y-6 pt-2 bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f]  px-4 pb-28 min-h-screen relative overflow-hidden">
       {/* Glow Effects */}
       <div className="absolute top-0 left-0 w-72 h-72 bg-teal-400/10 blur-3xl rounded-full"></div>
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-cyan-400/10 blur-3xl rounded-full"></div>

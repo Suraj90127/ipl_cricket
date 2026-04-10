@@ -24,9 +24,9 @@ export default function Layout() {
       </div>
 
       <HeaderBar  />
-      <main className="flex-1 px-4 sm:px-6 md:px-8 pb-6 relative z-10 max-w-3xl mx-auto w-full">
+      <main className="flex-1 pb-6 relative z-10 max-w-3xl mx-auto w-full">
         
-        <div className="animate-fade-in w-full max-w-md m-auto">
+        <div className="animate-fade-in w-full max-w-md m-auto relative">
           <Outlet />
         </div>
       </main>

@@ -34,6 +34,7 @@ import { applyStoredLanguage } from "./utils/autoTranslate";
 import PaymentPage from './pages/auth/PaymentPage.jsx';
 import UpiSettingsPage from './pages/admin/AdminUpiUpdate.jsx';
 
+
 export default function App() {
   const { loadUserFromToken } = useAuthStore();
 
@@ -43,6 +44,8 @@ export default function App() {
   useEffect(() => {
     applyStoredLanguage();
   }, []);
+
+  const { user } = useAuthStore();
 
   return (
     <>
@@ -136,7 +139,20 @@ export default function App() {
           <Route path="settings" element={<AdminSettings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
+      {user && (
+  <div
+    onClick={() => window.open("https://t.me/your_channel_username", "_blank")}
+    className="fixed bottom-28 right-4 z-50 cursor-pointer"
+  >
+    <img
+      src="https://i.ibb.co/1tXpfd9R/telegram.png"
+      alt="telegram"
+      className="w-20 h-20"
+    />
+  </div>
+)}
     </>
   );
 }

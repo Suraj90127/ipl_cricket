@@ -102,7 +102,7 @@ const paymentMethod = (type) => {
   };
 
   return (
-    <div className="min-h-screen px-4 pb-10 
+    <div className="min-h-screen px-4 pb-20 pt-5 
     bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f] text-white">
 
       {/* Amount */}
