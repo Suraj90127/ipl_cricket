@@ -41,7 +41,7 @@ export default function MatchesPage() {
           setBanner({ bannerEnabled: !!res.bannerEnabled, bannerText: res.bannerText || '', bannerImageUrl: res.bannerImageUrl || '' });
           return;
         }
-      } catch (err) {}
+      } catch (err) { }
 
       try {
         const raw = localStorage.getItem(SETTINGS_KEY);
@@ -49,7 +49,7 @@ export default function MatchesPage() {
         const parsed = JSON.parse(raw);
         setBannerImageLoading(true);
         setBanner({ bannerEnabled: !!parsed.bannerEnabled, bannerText: parsed.bannerText || '', bannerImageUrl: parsed.bannerImageUrl || '' });
-      } catch (e) {}
+      } catch (e) { }
     };
 
     load();
@@ -60,19 +60,19 @@ export default function MatchesPage() {
         const parsed = JSON.parse(e.newValue || '{}');
         setBannerImageLoading(true);
         setBanner({ bannerEnabled: !!parsed.bannerEnabled, bannerText: parsed.bannerText || '', bannerImageUrl: parsed.bannerImageUrl || '' });
-      } catch {}
+      } catch { }
     };
     window.addEventListener('storage', handler);
     return () => window.removeEventListener('storage', handler);
   }, []);
 
   useEffect(() => {
-    fetchMatches(tab);
-  }, [tab]);
+    fetchMatches();
+  }, []);
 
   useEffect(() => {
-    const names = ["Arjun","Rohit","Dev","Priya","Aman","Ananya","Vikram","Maya"];
-    const cities = ["Mumbai","Delhi","Bangalore","Hyderabad","Chennai","Kolkata","Pune","Ahmedabad"];
+    const names = ["Arjun", "Rohit", "Dev", "Priya", "Aman", "Ananya", "Vikram", "Maya"];
+    const cities = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Kolkata", "Pune", "Ahmedabad"];
 
     const generateUser = () => ({
       name: names[Math.floor(Math.random() * names.length)],
@@ -97,6 +97,10 @@ export default function MatchesPage() {
       m.teamA.toLowerCase().includes(search.toLowerCase()) ||
       m.teamB.toLowerCase().includes(search.toLowerCase()),
   );
+
+  const liveMatches = matches.filter(m => m.status === "live");
+  const upcomingMatches = matches.filter(m => m.status === "upcoming");
+  const finishedMatches = matches.filter(m => m.status === "finished");
 
   // console.log("matches", matches);
 
@@ -159,11 +163,10 @@ export default function MatchesPage() {
                 setSearch("");
               }}
               className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs sm:text-sm font-semibold transition
-              ${
-                isActive
+              ${isActive
                   ? "bg-gradient-to-r from-teal-500 to-cyan-500 text-black shadow"
                   : "text-white/60 hover:bg-white/10"
-              }`}
+                }`}
             >
               <Icon size={16} className={isActive && t.key === "live" ? "animate-pulse text-red-400" : ""} />
               {t.label}
@@ -189,13 +192,33 @@ export default function MatchesPage() {
             </span>
           </div>
 
-          {filteredMatches.map((match) => (
-            <MatchCard key={match._id} match={match} />
-          ))}
+          {/* LIVE TAB */}
+          {/* LIVE TAB */}
+          {tab === "live" && (
+            <>
+              {/* 🔴 ALL live matches */}
+              {liveMatches.map((match) => (
+                <MatchCard key={match._id} match={match} />
+              ))}
 
-          {filteredMatches.map((match) => (
-            <MatchCard key={match._id} match={match} />
-          ))}
+              {/* 📅 Sirf 1 upcoming match */}
+              {upcomingMatches[0] && (
+                <MatchCard key={upcomingMatches[0]._id} match={upcomingMatches[0]} />
+              )}
+            </>
+          )}
+
+          {/* UPCOMING TAB */}
+          {tab === "upcoming" &&
+            upcomingMatches.map((match) => (
+              <MatchCard key={match._id} match={match} />
+            ))}
+
+          {/* FINISHED TAB */}
+          {tab === "finished" &&
+            finishedMatches.map((match) => (
+              <MatchCard key={match._id} match={match} />
+            ))}
 
           {!filteredMatches.length && (
             <div className="flex flex-col items-center justify-center py-16 text-center rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
