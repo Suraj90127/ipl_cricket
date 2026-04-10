@@ -11,10 +11,10 @@ export default function PaymentPage() {
   
   const navigate = useNavigate();
   const { generateQR, qrData, loading } = useUpiStore();
-  const [upiId, setUpiId] = useState("7983247157@ptyes");
+  // const [upiId, setUpiId] = useState("7983247157@ptyes");
 
 
-  console.log("Select Payment Method0", qrData);
+  // console.log("Select Payment Method0", qrData);
 
 
   const location = useLocation();
@@ -22,16 +22,36 @@ export default function PaymentPage() {
   const amount = Number(params.get("amount")) || 0;
 
 
-  const paymentMethod = (type) => {
-    console.log("paymentMethod111",type);
+const paymentMethod = (type) => {
+  if (type === "phonepe") {
+    const payload = {
+        contact: {
+          cbnName: "",
+          nickName: "",
+          type: "VPA",
+          vpa: qrData?.upiId,
+        },
+        p2pPaymentCheckoutParams: {
+          checkoutType: "DEFAULT",
+          initialAmount: amount * 100,
+          note: "Payment",
+          isByDefaultKnownContact: true,
+          currency: "INR",
+          transactionContext: "collect", // try this
+          showKeyboard: true,
+        },
+    };
 
-    if (type === "paytm") {
-      // window.location.href  = `paytmmp://cash_wallet?pa=${upiId}&pn=null&cu=INR&tn=&am=500.00&featuretype=money_transfer`
-      window.location.href = `paytmmp://cash_wallet?pa=${upiId}&pn=null&cu=INR&tn=&am=${amount}.00&featuretype=money_transfer`;
-    }
+    const encoded = btoa(JSON.stringify(payload));
 
-  } // default to paytm if not specified
+    window.location.href = `phonepe://native?data=${encoded}&id=p2ppayment`;
+  }
 
+  if (type === "paytm") {
+    // Direct UPI (better)
+    window.location.href = `paytmmp://cash_wallet?pa=${qrData?.upiId}&pn=null&cu=INR&tn=&am=${amount}.00&featuretype=money_transfer`;
+  }
+};
   // ⏱ TIMER
   useEffect(() => {
     const timer = setInterval(() => {

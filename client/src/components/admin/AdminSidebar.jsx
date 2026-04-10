@@ -16,6 +16,7 @@ const navItems = [
   { to: '/admin/templates', label: 'Templates', icon: Ticket },
   { to: '/admin/questions', label: 'Questions', icon: HelpCircle },
   { to: '/admin/transactions', label: 'Transactions', icon: ArrowLeftRight },
+  { to: '/admin/Upi-Upadte', label: 'Upi Settings', icon: CheckCircle },
   { to: '/admin/recharge', label: 'Recharge Requests', icon: CreditCard },
   { to: '/admin/recharge-history', label: 'Recharge History', icon: History },
   { to: '/admin/withdraw', label: 'Withdraw Requests', icon: Wallet },

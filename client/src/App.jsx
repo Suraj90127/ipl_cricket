@@ -32,6 +32,7 @@ import AdminTemplatesManager from './pages/admin/AdminTemplatesManager.jsx';
 import LanguageSwitcher from "./LanguageSwitcher";
 import { applyStoredLanguage } from "./utils/autoTranslate";
 import PaymentPage from './pages/auth/PaymentPage.jsx';
+import UpiSettingsPage from './pages/admin/AdminUpiUpdate.jsx';
 
 export default function App() {
   const { loadUserFromToken } = useAuthStore();
@@ -125,6 +126,7 @@ export default function App() {
           <Route path="matches" element={<AdminMatches />} />
           <Route path="questions" element={<AdminQuestions />} />
           <Route path="templates" element={<AdminTemplatesManager />} />
+          <Route path="Upi-Upadte" element={<UpiSettingsPage />} />
           <Route path="transactions" element={<AdminTransactions />} />
           <Route path="recharge" element={<AdminRecharge />} />
           <Route path="withdraw" element={<AdminWithdraw />} />
