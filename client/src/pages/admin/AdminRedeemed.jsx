@@ -26,10 +26,15 @@ const AdminRedeemed = () => {
                         ? (usedCount / item.totalUsers) * 100
                         : 0;
 
+                    // 🔥 Expiry Logic
+                    const isExpired = new Date(item.expiresAt) < new Date();
+
                     return (
                         <div
                             key={item._id}
-                            className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition duration-300"
+                            className={`bg-white rounded-2xl shadow-sm border border-gray-200 p-5 hover:shadow-md transition duration-300 ${
+                                isExpired ? 'opacity-60' : ''
+                            }`}
                         >
                             {/* Header */}
                             <div className="flex justify-between items-center mb-3">
@@ -39,12 +44,18 @@ const AdminRedeemed = () => {
 
                                 <span
                                     className={`text-xs px-3 py-1 rounded-full font-medium ${
-                                        item.isActive
+                                        isExpired
+                                            ? 'bg-red-100 text-red-600'
+                                            : item.isActive
                                             ? 'bg-green-100 text-green-600'
-                                            : 'bg-red-100 text-red-500'
+                                            : 'bg-gray-200 text-gray-500'
                                     }`}
                                 >
-                                    {item.isActive ? 'Active' : 'Inactive'}
+                                    {isExpired
+                                        ? 'Expired'
+                                        : item.isActive
+                                        ? 'Active'
+                                        : 'Inactive'}
                                 </span>
                             </div>
 
@@ -72,22 +83,23 @@ const AdminRedeemed = () => {
                             </div>
 
                             {/* Dates */}
-                            {/* Dates */}
-<div className="flex justify-between items-center text-xs mt-3">
-    <p className="text-orange-500 font-medium flex gap-1">
-        <FcExpired size={18}/> Expires:{" "}
-        <span className="text-orange-400 font-normal">
-            {new Date(item.expiresAt).toLocaleString()}
-        </span>
-    </p>
+                            <div className="flex justify-between items-center text-xs mt-3">
+                                <p className="text-orange-500 font-medium flex gap-1 items-center">
+                                    <FcExpired size={18} />
+                                    Expires:
+                                    <span className="text-orange-400 font-normal">
+                                        {new Date(item.expiresAt).toLocaleString()}
+                                    </span>
+                                </p>
 
-    <p className="text-blue-500 font-medium flex gap-1">
-        <IoIosCreate  size={18}/> Created:{" "}
-        <span className="text-gray-500 font-normal">
-            {new Date(item.createdAt).toLocaleString()}
-        </span>
-    </p>
-</div>
+                                <p className="text-blue-500 font-medium flex gap-1 items-center">
+                                    <IoIosCreate size={18} />
+                                    Created:
+                                    <span className="text-gray-500 font-normal">
+                                        {new Date(item.createdAt).toLocaleString()}
+                                    </span>
+                                </p>
+                            </div>
                         </div>
                     );
                 })}

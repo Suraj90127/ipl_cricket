@@ -27,50 +27,57 @@ export default function AdminGiftPage() {
     };
 
     return (
-        <div className="min-h-screen p-4">
+        <div className=" flex  p-4">
 
-            <div className="max-w-md bg-gray-200 backdrop-blur-xl border border-gray-800 rounded-3xl p-6 shadow-xl">
+            <div className="w-full max-w-md bg-white rounded-3xl p-6 shadow-lg border border-gray-200">
 
-                <h2 className="text-xl font-bold text-gray-950 mb-6 text-center">
+                {/* Heading */}
+                <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
                     🎁 Create Gift Code
                 </h2>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-5">
 
                     {/* Amount */}
                     <div>
-                        <label className="text-xs text-black font-bold">Amount</label>
+                        <label className="text-sm font-medium text-gray-600">
+                            Amount
+                        </label>
                         <input
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                             placeholder="Enter amount"
-                            className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-200 border border-gray-800 text-black"
+                            className="w-full mt-2 px-4 py-2.5 rounded-xl text-gray-700 border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none transition"
                             required
                         />
                     </div>
 
                     {/* Users */}
                     <div>
-                        <label className="text-xs text-black font-bold">Total Users</label>
+                        <label className="text-sm font-medium text-gray-600">
+                            Total Users
+                        </label>
                         <input
                             type="number"
                             value={totalUsers}
                             onChange={(e) => setTotalUsers(e.target.value)}
                             placeholder="Number of users"
-                            className="w-full mt-1 px-4 py-2 rounded-xl bg-gray-200 border border-gray-800 text-black"
+                            className="w-full mt-2 px-4 py-2.5 text-gray-700 rounded-xl border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none transition"
                             required
                         />
                     </div>
 
                     {/* Expiry */}
                     <div>
-                        <label className="text-xs text-black font-bold">Expiry Date</label>
+                        <label className="text-sm font-medium text-gray-600">
+                            Expiry Date
+                        </label>
                         <input
                             type="datetime-local"
                             value={expiresAt}
                             onChange={(e) => setExpiresAt(e.target.value)}
-                            className="w-full mt-1 px-4 py-2 rounded-xl bg-white/5 border border-gray-800 text-black"
+                            className="w-full mt-2 px-4 py-2.5 rounded-xl border text-gray-700 border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none transition"
                         />
                     </div>
 
@@ -78,21 +85,21 @@ export default function AdminGiftPage() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-bold"
+                        className="w-full py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-semibold hover:opacity-90 transition"
                     >
                         {loading ? 'Creating...' : 'Create Code'}
                     </button>
 
                     {/* Success */}
                     {success && (
-                        <div className="text-emerald-400 text-sm text-center">
+                        <div className="text-green-500 text-sm text-center font-medium">
                             {success}
                         </div>
                     )}
 
                     {/* Error */}
                     {error && (
-                        <div className="text-red-400 text-sm text-center">
+                        <div className="text-red-500 text-sm text-center font-medium">
                             {error}
                         </div>
                     )}
