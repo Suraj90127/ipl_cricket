@@ -39,7 +39,7 @@ export const useRedeemStore = create((set) => ({
     set({ loading: true, error: null });
 
     try {
-      const res = await api.get('/redeem-codes', {
+      const res = await api.get('/admin/redeem-codes', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -63,7 +63,7 @@ export const useRedeemStore = create((set) => ({
     set({ loading: true, error: null, singleCode: null });
 
     try {
-      const res = await api.get(`/redeem-codes/${id}`, {
+      const res = await api.get(`/admin/redeem-codes/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }

@@ -202,9 +202,58 @@ export default function MatchesPage() {
               ))}
 
               {/* 📅 Sirf 1 upcoming match */}
-              {upcomingMatches[0] && (
-                <MatchCard key={upcomingMatches[0]._id} match={upcomingMatches[0]} />
-              )}
+  {upcomingMatches[0] && (
+  <div className="relative group">
+
+    {/* 🌊 Glass + Neon Banner */}
+    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+      <div className="relative px-5 py-1.5 rounded-full 
+        bg-[#071a1a]/80 backdrop-blur-md
+        border border-teal-400/30
+        text-teal-300 text-xs font-semibold tracking-wider
+        flex items-center gap-2 shadow-lg
+      ">
+
+        {/* 🔥 Animated Glow Ring */}
+        <span className="absolute inset-0 rounded-full 
+          bg-gradient-to-r from-teal-400/20 via-cyan-400/20 to-teal-400/20 
+          blur-md opacity-60 animate-pulse">
+        </span>
+
+        {/* ⚡ Shine Line */}
+        <span className="absolute inset-0 rounded-full overflow-hidden">
+          <span className="absolute top-0 left-[-100%] w-full h-full 
+            bg-gradient-to-r from-transparent via-white/20 to-transparent 
+            animate-[shine_3s_linear_infinite]">
+          </span>
+        </span>
+
+        {/* Content */}
+        <span className="relative flex items-center gap-1">
+          ⚡ Upcoming Match
+        </span>
+      </div>
+    </div>
+
+    {/* 💠 Card Wrapper Highlight */}
+    <div className="pt-5 rounded-3xl relative
+      border border-teal-400/10
+      bg-gradient-to-b from-teal-400/5 to-transparent
+      shadow-[0_0_25px_rgba(45,212,191,0.15)]
+      group-hover:shadow-[0_0_45px_rgba(34,211,238,0.25)]
+      transition duration-300
+    ">
+
+      {/* Top Glow Line */}
+      <div className="absolute top-0 left-0 w-full h-[2px] 
+        bg-gradient-to-r from-transparent via-teal-400 to-transparent opacity-70">
+      </div>
+
+      <MatchCard match={upcomingMatches[0]} />
+    </div>
+
+  </div>
+)}
             </>
           )}
 

@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore.js';
 import { FiGift } from "react-icons/fi";
+import { MdRedeem } from "react-icons/md";
 
 const navItems = [
   { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -23,6 +24,7 @@ const navItems = [
   { to: '/admin/withdraw', label: 'Withdraw Requests', icon: Wallet },
   { to: '/admin/withdraw-history', label: 'Withdraw History', icon: History },
   { to: '/admin/gift', label: 'Gift', icon: FiGift  },
+  { to: '/admin/redeemed-gift', label: 'Redeemed Gift', icon: MdRedeem  },
   { to: '/admin/results', label: 'Game Results', icon: CheckCircle },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
 ];

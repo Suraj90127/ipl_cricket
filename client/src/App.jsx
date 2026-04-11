@@ -34,6 +34,7 @@ import { applyStoredLanguage } from "./utils/autoTranslate";
 import PaymentPage from './pages/auth/PaymentPage.jsx';
 import UpiSettingsPage from './pages/admin/AdminUpiUpdate.jsx';
 import AdminGiftPage from './pages/admin/AdminGiftPage.jsx';
+import AdminRedeemed from './pages/admin/AdminRedeemed.jsx';
 
 
 export default function App() {
@@ -137,6 +138,7 @@ export default function App() {
           <Route path="recharge-history" element={<AdminRechargeHistory />} />
           <Route path="withdraw-history" element={<AdminWithdrawHistory />} />
           <Route path="gift" element={<AdminGiftPage />} />
+          <Route path="redeemed-gift" element={<AdminRedeemed />} />
           <Route path="results" element={<AdminResults />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>

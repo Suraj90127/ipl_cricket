@@ -1,11 +1,41 @@
 import { Link } from "react-router-dom";
 import { format } from "../../utils/format.js";
 import { Clock } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function MatchCard({ match }) {
   const isLive = match.status?.toLowerCase() === "live";
   const isUpcoming = match.status?.toLowerCase() === "upcoming";
   // console.log("match", match);
+
+
+  const [timeLeft, setTimeLeft] = useState("");
+
+useEffect(() => {
+  if (!isUpcoming) return;
+
+  const updateCountdown = () => {
+    const matchTime = new Date(match.matchTime).getTime();
+    const now = new Date().getTime();
+    const diff = matchTime - now;
+
+    if (diff <= 0) {
+      setTimeLeft("Live 🔴");
+      return;
+    }
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+  };
+
+  updateCountdown();
+  const interval = setInterval(updateCountdown, 1000);
+
+  return () => clearInterval(interval);
+}, [match.matchTime, isUpcoming]);
 
 
   const getShortName = (name) => {
@@ -79,13 +109,20 @@ export default function MatchCard({ match }) {
               </span>
             ) : (
               <span
-                className={`text-sm font-semibold tracking-wide ${isLive
-                  ? "text-teal-400 animate-pulse"
-                  : "text-white/60"
-                  }`}
-              >
-                {isLive ? "LIVE" : format.time(match.matchTime)}
-              </span>
+  className={`text-sm font-semibold tracking-wide ${
+    isLive
+      ? "text-teal-400 animate-pulse"
+      : isUpcoming
+      ? "text-indigo-400"
+      : "text-white/60"
+  }`}
+>
+  {isLive
+    ? "LIVE"
+    : isUpcoming
+    ? timeLeft || "Starting..."
+    : format.time(match.matchTime)}
+</span>
             )}
 
             {/* Live Pulse Dot */}
