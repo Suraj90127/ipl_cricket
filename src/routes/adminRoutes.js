@@ -6,8 +6,7 @@ import {
   adminGetBets, adminGetLiveBets, adminGetLiveQuestions,
   adminGetMatches, adminUpdateMatch, adminDeleteMatch,
   adminGetQuestions, adminUpdateQuestion, adminBulkUpdateQuestions,
-  adminGetTransactions, adminUpdateTransaction, adminDeleteQuestion,
-  deleteBet
+  adminGetTransactions, adminUpdateTransaction, adminDeleteQuestion
 } from '../controllers/adminController.js';
 import { uploadImageHandler } from '../controllers/uploadController.js';
 import { adminUpdateSettings } from '../controllers/settingsController.js';
@@ -73,5 +72,8 @@ router.get("/upi", getUpiDetails);
 
 // Admin route
 router.put("/update/upi", updateUpiDetails);
+
+router.post("/admin/create-code", createRedeemCode);
+
 
 export default router;
