@@ -162,7 +162,9 @@ export default function WalletPage() {
 
     useEffect(() => {
    window.scrollTo(0, 0);
+   document.title = "Cricbazzi | Wallet";
   }, [user]);
+  
   // If the query string changes, update mode accordingly
   useEffect(() => {
     const params = new URLSearchParams(location.search);

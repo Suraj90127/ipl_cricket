@@ -31,6 +31,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    document.title = "Cricbazzi | Dashboard";
   }, [user]);
 
   return (

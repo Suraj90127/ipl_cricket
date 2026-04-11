@@ -101,6 +101,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
    window.scrollTo(0, 0);
+   document.title = "Cricbazzi | Profile";
   }, [user]);
   return (
     <div className="space-y-6 pt-2 bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f]  px-4 pb-28 min-h-screen relative overflow-hidden">

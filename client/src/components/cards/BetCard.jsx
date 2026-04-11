@@ -18,7 +18,7 @@ export default function BetCard({ bet }) {
       <div className="flex justify-between items-start pl-2">
         <div>
           <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
-            {format.dateTime(bet.createdAt)}
+            {format.date(bet.createdAt)}
           </span>
 
           <h4 className="font-bold text-white text-sm mt-0.5 max-w-[200px] truncate">

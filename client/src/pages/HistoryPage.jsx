@@ -20,6 +20,12 @@ export default function HistoryPage() {
     fetchBets({ range: filter, page, limit: PAGE_SIZE });
   }, [filter, page]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = "Cricbazzi | Betting History";
+  }, []);
+
+
   return (
     <div className="space-y-6 pt-2 min-h-screen bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f]  px-4 pb-20 relative overflow-hidden">
       {/* Glow Effects */}

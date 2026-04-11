@@ -10,6 +10,7 @@ export default function HeaderBar() {
   const navigate = useNavigate();
 
   const title = pathTitle(pathname);
+  const isHome = pathname === "/";
 
   const showBack =
     pathname !== "/" &&
@@ -25,10 +26,10 @@ export default function HeaderBar() {
 
   return (
     <header className="sticky top-0 z-50 w-full max-w-md mx-auto bg-black/20 backdrop-blur-xl border-b border-white/10 px-4 py-3 flex items-center justify-between">
-
+      
       {/* left */}
-      <div className="flex items-center ">
-
+      <div className="flex items-center">
+        
         {showBack && (
           <Link
             to=".."
@@ -39,8 +40,16 @@ export default function HeaderBar() {
           </Link>
         )}
 
-        <h1 className="text-base font-bold text-white tracking-tight ml-1">
-          {title}
+        <h1 className="flex items-center text-base font-bold text-white tracking-tight ml-1">
+          {/* logo */}
+          <img
+            src="https://i.ibb.co/zVvJXY96/Picsart-26-04-11-22-27-26-268.png"
+            alt="logo"
+            className="w-12 h-12 object-contain"
+          />
+
+          {/* title (hide on home) */}
+          {!isHome && <span className="ml-2">{title}</span>}
         </h1>
 
       </div>

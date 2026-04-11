@@ -68,6 +68,8 @@ export default function MatchesPage() {
 
   useEffect(() => {
     fetchMatches();
+    window.scrollTo(0, 0);
+    document.title = "Cricbazzi";
   }, []);
 
   useEffect(() => {

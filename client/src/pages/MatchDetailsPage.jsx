@@ -35,6 +35,7 @@ export default function MatchDetailsPage() {
   }, [socket, id]);
   useEffect(()=>{
     window.scrollTo(0,0);
+    document.title = "Cricbazzi | MatchDetails";
   },[])
 
   const getCategoryLabel = (question) => (question.categoryName || 'Other').trim();
