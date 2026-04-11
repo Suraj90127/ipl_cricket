@@ -482,17 +482,15 @@ export async function adminGetBets(req, res) {
       filter.createdAt = { $gte: today };
     }
 
-    // 🔥 PHONE FILTER (IMPORTANT)
+    // 🔥 PHONE FILTER (REGEX + i)
     if (req.query.phone) {
       const users = await User.find({
-        phone: req.query.phone // ✅ exact match
-        // 👇 partial search chahiye ho to use this:
-        // phone: { $regex: req.query.phone, $options: 'i' }
+        phone: { $regex: req.query.phone, $options: 'i' } // ✅ partial + case-insensitive
       }).select('_id');
 
       const userIds = users.map(u => u._id);
 
-      // ❗ agar koi user nahi mila
+      // ❗ no match
       if (!userIds.length) {
         return res.json({
           bets: [],
@@ -506,7 +504,6 @@ export async function adminGetBets(req, res) {
       filter.userId = { $in: userIds };
     }
 
-    // ✅ main query
     const [bets, total] = await Promise.all([
       Bet.find(filter)
         .sort({ createdAt: -1 })
