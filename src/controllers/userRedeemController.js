@@ -4,7 +4,7 @@ import User from "../models/User.js";
 export const redeemCode = async (req, res) => {
   try {
     const { code } = req.body;
-    const userId = req.user._id;
+    const userId = req.userId;
 
     // ❌ Code missing
     if (!code) {

@@ -15,6 +15,8 @@ import walletRoutes from './src/routes/walletRoutes.js';
 import settingsRoutes from './src/routes/settingsRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
 import qrRoutes from './src/routes/qrRoutes.js'
+import paymentMethodRoutes from './src/routes/paymentMethodRoutes.js';
+import redeemRoute from "./src/routes/redeemRoutes.js"  
 import { attachUser } from './src/middleware/auth.js';
 import { seedAdmin, seedDemo } from './src/seed.js';
 import { setIO } from './src/lib/socket.js';
@@ -49,8 +51,8 @@ app.use('/api', walletRoutes);
 app.use('/api', settingsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api',qrRoutes)
-import paymentMethodRoutes from './src/routes/paymentMethodRoutes.js';
 app.use('/api/payment-methods', paymentMethodRoutes);
+app.use('/api', redeemRoute);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 

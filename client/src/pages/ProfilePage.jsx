@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuthStore } from '../store/authStore.js';
 import { User, Copy, Gift, Award, Phone, Mail, LogOut, ChevronRight, X, Headset, MessageCircle, ExternalLink, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import RedeemPage from './RedeemPage.jsx';
 
 export default function ProfilePage() {
   const { user, logout, updateProfile, claimDaily } = useAuthStore();
@@ -190,23 +191,19 @@ export default function ProfilePage() {
           </div>
 
           <div className="flex items-center justify-between p-3 rounded-2xl bg-white/5 border border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-white/10 text-emerald-400 rounded-xl">
-                <Gift size={18} />
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Daily Bonus</p>
-                <p className="font-bold text-emerald-400 text-sm">+₹{user.dailyBonus ?? 0}</p>
-              </div>
-            </div>
-            <button
-              className="text-xs font-bold text-black bg-gradient-to-r from-teal-500 to-cyan-500 px-4 py-2 rounded-xl shadow-lg transition-transform active:scale-95 disabled:opacity-30"
-              onClick={handleClaim}
-              disabled={!canClaim || claiming}
-            >
-              {claiming ? 'Claiming...' : canClaim ? 'Claim' : 'Claimed'}
-            </button>
-          </div>
+  <div className="flex items-center gap-3">
+    
+    <div className="p-2 bg-white/10 text-emerald-400 rounded-xl">
+      <Gift size={18} />
+    </div>
+
+    {/* IMPORTANT: flex + items-center */}
+    <div className="flex items-center">
+      <RedeemPage />
+    </div>
+
+  </div>
+</div>
 
           {claimMsg && (
             <p className="text-xs font-semibold text-center text-emerald-600 mt-1">{claimMsg}</p>

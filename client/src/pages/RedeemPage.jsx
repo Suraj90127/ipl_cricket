@@ -3,57 +3,51 @@ import { useRedeemStore } from '../store/redeemStore';
 
 const RedeemPage = () => {
   const [code, setCode] = useState('');
-
   const { redeemCode, loading, success, error } = useRedeemStore();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!code.trim()) return;
-
     redeemCode(code);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-2xl shadow-md w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4 text-center">Redeem Code</h2>
+   <div className="flex flex-col">
+  
+  <form onSubmit={handleSubmit} className="flex items-center gap-2">
+    
+    <input
+      type="text"
+      placeholder="Redeem"
+      value={code}
+      onChange={(e) => setCode(e.target.value)}
+      className="h-8 px-2 text-sm bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none w-52"
+    />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Enter redeem code"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            className="w-full border p-2 rounded-lg"
-          />
+    <button
+      type="submit"
+      disabled={loading}
+      className="h-8 px-3 text-sm bg-gradient-to-r from-teal-500 to-cyan-500 text-black font-bold rounded-lg hover:bg-emerald-600 transition"
+    >
+      {loading ? 'Loading' : 'Claim'}
+    </button>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-          >
-            {loading ? 'Redeeming...' : 'Redeem'}
-          </button>
-        </form>
+  </form>
 
-        {/* SUCCESS */}
-        {success && (
-          <div className="mt-4 p-3 bg-green-100 text-green-700 rounded-lg">
-            <p>{success.message}</p>
-            <p>Amount: ₹{success.creditedAmount}</p>
-            <p>Balance: ₹{success.newBalance}</p>
-            <p>People Left: {success.peopleLeft}</p>
-          </div>
-        )}
+  {/* 👇 MESSAGE BELOW */}
+  {success && (
+    <span className="text-xs text-green-400 mt-1">
+      Claimed successfully ✅
+    </span>
+  )}
 
-        {/* ERROR */}
-        {error && (
-          <div className="mt-4 p-3 bg-red-100 text-red-700 rounded-lg">
-            {error}
-          </div>
-        )}
-      </div>
-    </div>
+  {error && (
+    <span className="text-xs text-red-400 mt-1">
+      First need to recharge
+    </span>
+  )}
+
+</div>
   );
 };
 
