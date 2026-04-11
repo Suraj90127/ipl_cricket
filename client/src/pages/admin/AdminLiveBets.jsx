@@ -3,25 +3,56 @@ import { useSocket } from '../../providers/SocketProvider.jsx';
 import { adminService } from '../../services/adminService.js';
 import { format } from '../../utils/format.js';
 import { RefreshCw } from 'lucide-react';
+import { useBetStore } from '../../store/betStore.js';
 import PaginationControls from '../../components/admin/PaginationControls.jsx';
+import { betService } from '../../services/betService.js';
 
 const PAGE_SIZE = 10;
 
 
 
 export default function AdminLiveBets() {
-  
-const [bets, setBets] = useState([]);
+
+  const { deleteBet } = useBetStore();
+
+  const [bets, setBets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const socket = useSocket();
 
+  const [showConfirm, setShowConfirm] = useState(false);
+const [selectedId, setSelectedId] = useState(null);
+const [deleting, setDeleting] = useState(false);
+
+
+  const handleDelete = (id) => {
+  setSelectedId(id);
+  setShowConfirm(true);
+};
+
+const confirmDeleteBet = async () => {
+  if (!selectedId) return;
+
+  setDeleting(true);
+
+  const success = await deleteBet(selectedId);
+
+  setDeleting(false);
+  setShowConfirm(false);
+  setSelectedId(null);
+
+  if (success) {
+    load();
+  }
+};
+
+
   const load = () => {
     setLoading(true);
     adminService.getLiveBets({ page, limit: PAGE_SIZE })
       .then((data) => { setBets(data.bets ?? []); setTotalPages(data.totalPages ?? 1); })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   };
 
@@ -36,11 +67,47 @@ const [bets, setBets] = useState([]);
   }, [socket, page]);
 
   return (
+
+    
     <div className="space-y-4">
+      {showConfirm && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div className="bg-white rounded-2xl p-6 w-[90%] max-w-sm shadow-xl animate-scale-in">
+
+      <h2 className="text-lg font-bold text-slate-800 mb-2">
+        Delete Bet?
+      </h2>
+
+      <p className="text-sm text-slate-500 mb-5">
+        Are you sure you want to delete this bet? This action cannot be undone.
+      </p>
+
+      <div className="flex justify-end gap-3">
+        
+        <button
+          onClick={() => setShowConfirm(false)}
+          className="px-4 py-2 rounded-xl text-sm font-semibold text-slate-500 hover:bg-slate-100 transition"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={confirmDeleteBet}
+          disabled={deleting}
+          className="px-4 py-2 rounded-xl text-sm font-bold bg-red-500 text-white hover:bg-red-600 transition disabled:opacity-50"
+        >
+          {deleting ? 'Deleting...' : 'Delete'}
+        </button>
+
+      </div>
+    </div>
+  </div>
+)}
+
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
-        <span className="text-sm font-bold text-slate-700">{bets.length} Live Bets Active</span>
+          <span className="text-sm font-bold text-slate-700">{bets.length} Live Bets Active</span>
         </div>
         <button onClick={load} className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-500 hover:border-accent hover:text-accent transition">
           <RefreshCw size={13} /> Refresh
@@ -63,6 +130,7 @@ const [bets, setBets] = useState([]);
                   <th className="text-right px-4 py-3">Total</th>
                   <th className="text-center px-4 py-3">Q.Status</th>
                   <th className="text-right px-4 py-3">Placed At</th>
+                  <th className="text-center px-4 py-3">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
@@ -77,13 +145,21 @@ const [bets, setBets] = useState([]);
                     <td className="px-4 py-3 font-bold text-indigo-600">{bet.selectedOption}</td>
                     <td className="px-4 py-3 text-right font-bold text-slate-800">₹{bet.amount}</td>
                     <td className="px-4 py-3 text-right font-bold text-slate-800">{bet.odds}</td>
-                    <td className="px-4 py-3 text-right font-bold text-slate-800">₹{bet.amount* bet.odds}</td>
+                    <td className="px-4 py-3 text-right font-bold text-slate-800">₹{bet.amount * bet.odds}</td>
                     <td className="px-4 py-3 text-center">
                       <span className="px-2 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-600 uppercase">
                         {bet.questionId?.status ?? 'open'}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right text-slate-400 text-xs whitespace-nowrap">{format.dateTime(bet.createdAt)}</td>
+                    <td className="px-4 py-3 text-center">
+                      <button
+                        onClick={() => handleDelete(bet._id)}
+                        className="text-red-500 text-xs font-bold hover:underline"
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -94,6 +170,7 @@ const [bets, setBets] = useState([]);
         </div>
       )}
     </div>
+
   );
 }
 

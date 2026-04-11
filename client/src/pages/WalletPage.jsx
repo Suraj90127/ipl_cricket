@@ -137,8 +137,8 @@ export default function WalletPage() {
   const { balance,user, transactions, fetchTransactions, recharge, withdraw, totalPages, paymentMethods, fetchPaymentMethods, addPaymentMethod } = useWalletStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const [amountInput, setAmountInput] = useState('100');
-  const presetAmounts = [100, 200, 500, 1000, 2000, 5000];
+  const [amountInput, setAmountInput] = useState('300');
+  const presetAmounts = [300, 500, 1000, 2000, 5000, 10000];
   const [upiId, setUpiId] = useState('');
   const [withdrawMethod, setWithdrawMethod] = useState('upi');
   const [accountName, setAccountName] = useState('');
@@ -243,14 +243,29 @@ export default function WalletPage() {
   };
 
   const handleSubmit = async () => {
-    if (mode === 'withdraw') {
-      await handleWithdraw();
-      return;
-    }
-    await handleRecharge();
-          navigate(`/payment?amount=${amountInput}`);
+  const amt = Number(amountInput);
 
-  };
+  // ❌ STOP submission here
+  if (!amt || amt <= 0) {
+    setMessage({ text: 'Enter a valid amount', type: 'error' });
+    return;
+  }
+
+  if (amt < 300) {
+    setMessage({ text: 'Minimum recharge amount is ₹300', type: 'error' });
+    return;
+  }
+
+  if (mode === 'withdraw') {
+    await handleWithdraw();
+    return;
+  }
+
+  await handleRecharge();
+
+  // ✅ only runs if validation passed
+  navigate(`/payment?amount=${amountInput}`);
+};
 
   // --- Payment method state ---
   const [showAddPopup, setShowAddPopup] = useState(false);

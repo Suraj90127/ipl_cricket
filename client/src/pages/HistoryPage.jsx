@@ -23,7 +23,7 @@ export default function HistoryPage() {
   return (
     <div className="space-y-6 pt-2 min-h-screen bg-gradient-to-br from-[#0b1220] via-[#071a1a] to-[#05070f]  px-4 pb-20 relative overflow-hidden">
       {/* Glow Effects */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-teal-400/10 blur-3xl rounded-full"></div>
+      {/* <div className="absolute top-0 left-0 w-72 h-72 bg-teal-400/10 blur-3xl rounded-full -z-10"></div> */}
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-cyan-400/10 blur-3xl rounded-full"></div>
 
       <div className="flex items-center justify-between px-1">
@@ -35,21 +35,21 @@ export default function HistoryPage() {
       </div>
 
       <div className="-mx-4 px-4 sm:mx-0 sm:px-0">
-        <div className="flex gap-2 overflow-x-auto pb-4 scrollbar-hide snap-x">
-          {filters.map((f) => (
-            <button
-              key={f.key}
-              onClick={() => { setFilter(f.key); setPage(1); }}
-              className={`snap-start shrink-0 px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 border ${
-                filter === f.key 
-                  ? 'bg-gradient-to-r from-teal-500 to-cyan-500 border-transparent text-black shadow-lg shadow-teal-500/20' 
-                  : 'border-white/10 bg-white/5 text-white/40 hover:border-teal-400/30 hover:bg-white/10 hover:text-white'
-              }`}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+        <div className="flex gap-2 bg-white/5 border border-white/10 rounded-2xl p-1">
+  {filters.map((f) => (
+    <button
+      key={f.key}
+      onClick={() => { setFilter(f.key); setPage(1); }}
+      className={`flex-1 py-2 rounded-xl text-sm font-semibold transition ${
+        filter === f.key
+          ? 'bg-teal-500 text-white'
+          : 'text-white/60 hover:bg-white/10'
+      }`}
+    >
+      {f.label}
+    </button>
+  ))}
+</div>
       </div>
 
       <div className="space-y-3 relative min-h-[200px]">

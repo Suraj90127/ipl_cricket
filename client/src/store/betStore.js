@@ -70,5 +70,25 @@ export const useBetStore = create((set) => ({
     }
 
     return data.bet;
+  },
+
+  deleteBet: async (betId) => {
+  set({ loading: true });
+
+  try {
+    const res = await betService.deleteBet(betId);
+    console.log("DELETE SUCCESS:", res);
+
+    set((state) => ({
+      bets: state.bets.filter((b) => b._id !== betId),
+      loading: false
+    }));
+
+    return true;
+  } catch (err) {
+    console.error("DELETE ERROR:", err?.response?.data || err.message); // 👈 IMPORTANT
+    set({ loading: false });
+    return false;
   }
+},
 }));
