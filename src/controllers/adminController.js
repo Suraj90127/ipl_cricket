@@ -9,6 +9,7 @@ import User from '../models/User.js';
 import Transaction from '../models/Transaction.js';
 import RechargeHistory from '../models/RechargeHistory.js';
 import WithdrawHistory from '../models/WithdrawHistory.js';
+import moment from "moment-timezone";
 import { getIO } from '../lib/socket.js';
 
 function buildMatchPayload(body = {}) {
@@ -126,21 +127,28 @@ async function buildQuestionPayload(body = {}) {
     status: body.status || 'open',
     categoryId: category?._id,
     categoryName: category?.name ?? String(body.categoryName || body.category || '').trim(),
-      timerSeconds: body.timerSeconds !== undefined ? Number(body.timerSeconds) : null
+    timerSeconds: body.timerSeconds !== undefined ? Number(body.timerSeconds) : null
   };
 }
 
 // ─── Existing ────────────────────────────────────────────────────────────────
 
+
 export async function adminAddMatch(req, res) {
   try {
-    const payload = buildMatchPayload(req.body);
+    const body = req.body;
+
+    const payload = {
+      ...body,
+      matchTime: moment.tz(body.matchTime, "Asia/Kolkata").toDate()
+    };
+
     const match = await Match.create(payload);
+
     await ensureMatchWinnerQuestion(match);
 
-    // Toss question auto-create
     const tossCategory = await resolveCategory({ categoryName: 'Toss' });
- 
+
     res.json(match);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -238,7 +246,7 @@ export async function adminGetLiveQuestions(req, res) {
       { matchId: { $in: matchIds }, autoCloseAt: { $lte: now }, status: 'open' },
       { $set: { status: 'closed' } }
     );
-    
+
     // Emit socket events for closed questions
     if (questionsToClose.modifiedCount > 0) {
       try {
@@ -337,13 +345,13 @@ export async function adminGetStats(req, res) {
     ]);
     const last7 = [];
     for (let i = 6; i >= 0; i--) {
-      const d = new Date(); d.setDate(d.getDate() - i); d.setHours(0,0,0,0);
+      const d = new Date(); d.setDate(d.getDate() - i); d.setHours(0, 0, 0, 0);
       const next = new Date(d); next.setDate(next.getDate() + 1);
       const [betsCount, revenue] = await Promise.all([
         Bet.countDocuments({ createdAt: { $gte: d, $lt: next } }),
         Transaction.aggregate([{ $match: { type: 'recharge', status: 'done', createdAt: { $gte: d, $lt: next } } }, { $group: { _id: null, total: { $sum: '$amount' } } }])
       ]);
-      last7.push({ date: d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' }), bets: betsCount, revenue: revenue[0]?.total ?? 0 });
+      last7.push({ date: d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }), bets: betsCount, revenue: revenue[0]?.total ?? 0 });
     }
     res.json({
       totalUsers,
@@ -462,7 +470,7 @@ export async function adminGetBets(req, res) {
     if (req.query.matchId) filter.matchId = req.query.matchId;
     if (req.query.result) filter.result = req.query.result;
     if (req.query.today === 'true') {
-      const today = new Date(); today.setHours(0,0,0,0);
+      const today = new Date(); today.setHours(0, 0, 0, 0);
       filter.createdAt = { $gte: today };
     }
     const [bets, total] = await Promise.all([
@@ -477,6 +485,34 @@ export async function adminGetBets(req, res) {
     res.status(500).json({ message: err.message });
   }
 }
+
+export const deleteBet = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const bet = await Bet.findById(id);
+
+    if (!bet) {
+      return res.status(404).json({
+        success: false,
+        message: "Bet not found"
+      });
+    }
+
+    await Bet.findByIdAndDelete(id);
+
+    res.status(200).json({
+      success: true,
+      message: "Bet deleted successfully"
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
 
 export async function adminGetLiveBets(req, res) {
   try {
@@ -588,7 +624,7 @@ export async function adminUpdateQuestion(req, res) {
   try {
     const { id } = req.params;
     const payload = await buildQuestionPayload(req.body);
-    console.log("payload",payload)
+    console.log("payload", payload)
     const updated = await Question.findByIdAndUpdate(id, payload, { new: true });
     if (!updated) return res.status(404).json({ message: 'Question not found' });
     // Emit socket event for live update

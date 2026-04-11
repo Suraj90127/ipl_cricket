@@ -6,7 +6,7 @@ import {
   adminGetBets, adminGetLiveBets, adminGetLiveQuestions,
   adminGetMatches, adminUpdateMatch, adminDeleteMatch,
   adminGetQuestions, adminUpdateQuestion, adminBulkUpdateQuestions,
-  adminGetTransactions, adminUpdateTransaction,adminDeleteQuestion
+  adminGetTransactions, adminUpdateTransaction, adminDeleteQuestion
 } from '../controllers/adminController.js';
 import { uploadImageHandler } from '../controllers/uploadController.js';
 import { adminUpdateSettings } from '../controllers/settingsController.js';
@@ -40,6 +40,7 @@ router.patch('/users/:id/wallet', adminAdjustWallet);
 // bets
 router.get('/bets', adminGetBets);
 router.get('/live-bets', adminGetLiveBets);
+router.delete("/bet/:id", deleteBet);
 router.get('/live-questions', adminGetLiveQuestions);
 
 // matches
