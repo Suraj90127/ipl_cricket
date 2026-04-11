@@ -53,229 +53,45 @@ function fillPlaceholders(text = '', match = {}, players = {}) {
 
 const defaultQuestionTemplates = [
   {
-    categoryName: 'Match',
-    question: 'Who will win the toss?',
-    options: [
-      { label: 'Team A', odds: 1.9 },
-      { label: 'Team B', odds: 1.9 }
-    ]
-  },
-  {
-    categoryName: 'Match',
-    question: 'Who will bowl first?',
-    options: [
-      { label: 'Team A', odds: 1.9 },
-      { label: 'Team B', odds: 1.9 }
-    ]
-  },
-  {
     categoryName: 'Match Winner',
     question: 'Who will win the match?',
     options: [
-      { label: 'Team A', odds: 1.9 },
-      { label: 'Team B', odds: 1.9 }
-    ]
-  },
 
-  // Powerplay
-  {
-    categoryName: 'Powerplay',
-    question: 'Runs in next powerplay (6 overs)?',
-    options: [
-      { label: 'Under 65', odds: 1.8 },
-      { label: 'Above 65', odds: 2.0 }
     ]
   },
   {
-    categoryName: 'Powerplay',
-    question: 'Wickets in Team A powerplay?',
+    categoryName: 'Overs',
+    question: 'Runs in next over?',
     options: [
-      { label: '0-1', odds: 1.7 },
-      { label: '2-3', odds: 2.2 },
-      { label: '4+', odds: 3.5 }
+      { label: 'Under 6', odds: 1.8 },
+      { label: '6 or more', odds: 2.1 }
     ]
   },
   {
-    categoryName: 'Powerplay',
-    question: 'Highest powerplay score?',
+    categoryName: 'Run',
+    question: 'Next ball result?',
     options: [
-      { label: 'Team A', odds: 1.9 },
-      { label: 'Team B', odds: 1.9 }
+      { label: 'Dot Ball', odds: 1.9 },
+      { label: 'Run Scored', odds: 1.9 }
     ]
   },
   {
-    categoryName: 'Powerplay',
-    question: 'First boundary in powerplay?',
+    categoryName: 'Player',
+    question: 'Will striker score a boundary this over?',
     options: [
-      { label: 'Over 1-2', odds: 1.8 },
-      { label: 'Over 3-4', odds: 2.2 },
-      { label: 'Over 5-6', odds: 3.0 }
-    ]
-  },
-
-  // Batting
-  {
-    categoryName: 'Batting',
-    question: 'Who will score highest runs?',
-    options: []
-  },
-  {
-    categoryName: 'Batting',
-    question: 'Will an opening batsman score 50+?',
-    options: [
-      { label: 'Yes', odds: 2.1 },
+      { label: 'Yes', odds: 2.2 },
       { label: 'No', odds: 1.7 }
     ]
   },
   {
-    categoryName: 'Batting',
-    question: 'Top batsman runs range?',
+    categoryName: 'Wicket',
+    question: 'Wicket in this over?',
     options: [
-      { label: 'Under 30', odds: 2.0 },
-      { label: '30-60', odds: 1.8 },
-      { label: 'Above 60', odds: 2.5 }
+      { label: 'Yes', odds: 3.1 },
+      { label: 'No', odds: 1.4 }
     ]
   },
 
-  // Bowling
-  {
-    categoryName: 'Bowling',
-    question: 'Who will take most wickets?',
-    options: []
-  },
-  {
-    categoryName: 'Bowling',
-    question: 'Who will take first wicket?',
-    options: []
-  },
-  {
-    categoryName: 'Bowling',
-    question: 'Total wickets in match?',
-    options: [
-      { label: 'Under 10', odds: 2.2 },
-      { label: '10-15', odds: 1.8 },
-      { label: 'Above 15', odds: 2.4 }
-    ]
-  },
-  {
-    categoryName: 'Bowling',
-    question: 'Will any bowler take 3+ wickets?',
-    options: [
-      { label: 'Yes', odds: 2.3 },
-      { label: 'No', odds: 1.6 }
-    ]
-  },
-
-  // Score
-  {
-    categoryName: 'Score',
-    question: 'First innings score?',
-    options: [
-      { label: 'Under 160', odds: 2.0 },
-      { label: '160-190', odds: 1.8 },
-      { label: 'Above 190', odds: 2.3 }
-    ]
-  },
-  {
-    categoryName: 'Score',
-    question: 'Total chase score?',
-    options: [
-      { label: 'Above 200', odds: 2.2 },
-      { label: 'Below 200', odds: 1.7 }
-    ]
-  },
-  {
-    categoryName: 'Score',
-    question: 'Match will be high scoring?',
-    options: [
-      { label: 'Yes', odds: 2.0 },
-      { label: 'No', odds: 1.8 }
-    ]
-  },
-  {
-    categoryName: 'Score',
-    question: 'Will match go till last over?',
-    options: [
-      { label: 'Yes', odds: 2.1 },
-      { label: 'No', odds: 1.7 }
-    ]
-  },
-
-  // Result
-  {
-    categoryName: 'Result',
-    question: 'Winning margin?',
-    options: [
-      { label: '1-10 runs', odds: 2.5 },
-      { label: '10-30 runs', odds: 2.0 },
-      { label: '30+ runs', odds: 2.8 }
-    ]
-  },
-  {
-    categoryName: 'Result',
-    question: 'Super over?',
-    options: [
-      { label: 'Yes', odds: 3.5 },
-      { label: 'No', odds: 1.3 }
-    ]
-  },
-
-  // Boundaries
-  {
-    categoryName: 'Boundaries',
-    question: 'Total sixes?',
-    options: [
-      { label: 'Under 10', odds: 2.2 },
-      { label: '10-20', odds: 1.9 },
-      { label: 'Above 20', odds: 2.4 }
-    ]
-  },
-  {
-    categoryName: 'Boundaries',
-    question: 'Total fours?',
-    options: [
-      { label: 'Under 20', odds: 2.1 },
-      { label: '20-40', odds: 1.8 },
-      { label: 'Above 40', odds: 2.5 }
-    ]
-  },
-  {
-    categoryName: 'Extras',
-    question: 'Extras in match?',
-    options: [
-      { label: 'Under 10', odds: 1.9 },
-      { label: 'Above 10', odds: 2.0 }
-    ]
-  },
-
-  // Milestones
-  {
-    categoryName: 'Milestone',
-    question: 'First wicket score?',
-    options: [
-      { label: 'Under 20', odds: 2.0 },
-      { label: '20-50', odds: 1.8 },
-      { label: 'Above 50', odds: 2.3 }
-    ]
-  },
-  {
-    categoryName: 'Milestone',
-    question: 'Score after 10 overs?',
-    options: [
-      { label: 'Under 80', odds: 2.1 },
-      { label: '80-120', odds: 1.8 },
-      { label: 'Above 120', odds: 2.4 }
-    ]
-  },
-  {
-    categoryName: 'Milestone',
-    question: 'Runs in last 5 overs?',
-    options: [
-      { label: 'Under 50', odds: 2.0 },
-      { label: '50-80', odds: 1.8 },
-      { label: 'Above 80', odds: 2.5 }
-    ]
-  }
 ];
 
 async function ensureDefaultQuestions(matchId) {
