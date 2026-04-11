@@ -469,21 +469,64 @@ export async function adminGetBets(req, res) {
   try {
     const page = Math.max(1, Number(req.query.page) || 1);
     const limit = Math.max(1, Number(req.query.limit) || 10);
+
     const filter = {};
+
     if (req.query.matchId) filter.matchId = req.query.matchId;
     if (req.query.result) filter.result = req.query.result;
+
+    // ✅ today filter
     if (req.query.today === 'true') {
-      const today = new Date(); today.setHours(0, 0, 0, 0);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
       filter.createdAt = { $gte: today };
     }
+
+    // 🔥 PHONE FILTER (IMPORTANT)
+    if (req.query.phone) {
+      const users = await User.find({
+        phone: req.query.phone // ✅ exact match
+        // 👇 partial search chahiye ho to use this:
+        // phone: { $regex: req.query.phone, $options: 'i' }
+      }).select('_id');
+
+      const userIds = users.map(u => u._id);
+
+      // ❗ agar koi user nahi mila
+      if (!userIds.length) {
+        return res.json({
+          bets: [],
+          total: 0,
+          page,
+          limit,
+          totalPages: 1
+        });
+      }
+
+      filter.userId = { $in: userIds };
+    }
+
+    // ✅ main query
     const [bets, total] = await Promise.all([
-      Bet.find(filter).sort({ createdAt: -1 }).skip((page - 1) * limit).limit(limit)
+      Bet.find(filter)
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * limit)
+        .limit(limit)
         .populate('userId', 'name email phone')
         .populate('matchId', 'teamA teamB')
         .populate('questionId', 'question'),
+
       Bet.countDocuments(filter)
     ]);
-    res.json({ bets, total, page, limit, totalPages: Math.max(1, Math.ceil(total / limit)) });
+
+    res.json({
+      bets,
+      total,
+      page,
+      limit,
+      totalPages: Math.max(1, Math.ceil(total / limit))
+    });
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
