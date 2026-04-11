@@ -6,7 +6,9 @@ import {
   adminGetBets, adminGetLiveBets, adminGetLiveQuestions,
   adminGetMatches, adminUpdateMatch, adminDeleteMatch,
   adminGetQuestions, adminUpdateQuestion, adminBulkUpdateQuestions,
-  adminGetTransactions, adminUpdateTransaction, adminDeleteQuestion
+  adminGetTransactions, adminUpdateTransaction, adminDeleteQuestion,
+  deleteBet,
+  createRedeemCode
 } from '../controllers/adminController.js';
 import { uploadImageHandler } from '../controllers/uploadController.js';
 import { adminUpdateSettings } from '../controllers/settingsController.js';
