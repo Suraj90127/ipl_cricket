@@ -11,6 +11,9 @@ import RechargeHistory from '../models/RechargeHistory.js';
 import WithdrawHistory from '../models/WithdrawHistory.js';
 import moment from "moment-timezone";
 import { getIO } from '../lib/socket.js';
+import RedeemCode from "../models/RedeemCode.js";
+import { generateCode } from "../utils/generateCode.js";
+
 
 function buildMatchPayload(body = {}) {
   const payload = { ...body };
@@ -729,9 +732,15 @@ export async function adminUpdateTransaction(req, res) {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // ✅ Recharge Approved → Add balance
+    // ✅ Recharge Approved → Add balance + First Recharge Check
     if (tx.type === 'recharge' && status === 'approved') {
       user.balance += Math.abs(tx.amount);
+
+      // 🔥 FIRST RECHARGE LOGIC
+      if (user.firstRecharge === 'no') {
+        user.firstRecharge = 'yes';
+      }
+
       await user.save();
     }
 
@@ -745,15 +754,15 @@ export async function adminUpdateTransaction(req, res) {
     tx.status = status;
     await tx.save();
 
-    // 🔥 IMPORTANT: RechargeHistory sync
+    // 🔥 RechargeHistory sync
     if (tx.type === 'recharge') {
       await RechargeHistory.findOneAndUpdate(
         {
           userId: tx.userId,
-          utrId: tx.utrId // 👈 best match
+          utrId: tx.utrId
         },
         {
-          status: status // approved / rejected
+          status: status
         }
       );
     }
@@ -764,3 +773,39 @@ export async function adminUpdateTransaction(req, res) {
     res.status(500).json({ message: err.message });
   }
 }
+
+
+export const createRedeemCode = async (req, res) => {
+  try {
+    const { amount, totalUsers, expiresAt } = req.body;
+
+    if (!amount || !totalUsers) {
+      return res.status(400).json({
+        message: "Amount and totalUsers are required",
+      });
+    }
+
+    let code;
+    let exists = true;
+
+    while (exists) {
+      code = generateCode(8);
+      exists = await RedeemCode.findOne({ code });
+    }
+
+    const newCode = await RedeemCode.create({
+      code,
+      amount,
+      totalUsers,
+      peopleLeft: totalUsers, // 🔥 important
+      expiresAt,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: newCode,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, trim: true, lowercase: true, unique: true, sparse: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    firstRecharge:{type:String,enum:["yes", "no"],default:"no" },
     balance: { type: Number, default: 0 },
     status: { type: String, default: 'active' },
     referralCode: String,
