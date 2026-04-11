@@ -5,6 +5,7 @@ import {
   CheckCircle, Settings, LogOut, ChevronRight, X, History
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore.js';
+import { FiGift } from "react-icons/fi";
 
 const navItems = [
   { to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
@@ -21,6 +22,7 @@ const navItems = [
   { to: '/admin/recharge-history', label: 'Recharge History', icon: History },
   { to: '/admin/withdraw', label: 'Withdraw Requests', icon: Wallet },
   { to: '/admin/withdraw-history', label: 'Withdraw History', icon: History },
+  { to: '/admin/gift', label: 'Gift', icon: FiGift  },
   { to: '/admin/results', label: 'Game Results', icon: CheckCircle },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
 ];

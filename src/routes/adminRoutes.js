@@ -75,7 +75,7 @@ router.get("/upi", getUpiDetails);
 // Admin route
 router.put("/update/upi", updateUpiDetails);
 
-router.post("/admin/create-code", createRedeemCode);
+router.post("/create-code", createRedeemCode);
 
 
 export default router;

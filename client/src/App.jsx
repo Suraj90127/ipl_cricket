@@ -33,6 +33,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { applyStoredLanguage } from "./utils/autoTranslate";
 import PaymentPage from './pages/auth/PaymentPage.jsx';
 import UpiSettingsPage from './pages/admin/AdminUpiUpdate.jsx';
+import AdminGiftPage from './pages/admin/AdminGiftPage.jsx';
 
 
 export default function App() {
@@ -135,6 +136,7 @@ export default function App() {
           <Route path="withdraw" element={<AdminWithdraw />} />
           <Route path="recharge-history" element={<AdminRechargeHistory />} />
           <Route path="withdraw-history" element={<AdminWithdrawHistory />} />
+          <Route path="gift" element={<AdminGiftPage />} />
           <Route path="results" element={<AdminResults />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
