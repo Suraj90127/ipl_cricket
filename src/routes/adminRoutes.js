@@ -8,7 +8,9 @@ import {
   adminGetQuestions, adminUpdateQuestion, adminBulkUpdateQuestions,
   adminGetTransactions, adminUpdateTransaction, adminDeleteQuestion,
   deleteBet,
-  createRedeemCode
+  createRedeemCode,
+  getAllRedeemCodes,
+  getRedeemCodeById
 } from '../controllers/adminController.js';
 import { uploadImageHandler } from '../controllers/uploadController.js';
 import { adminUpdateSettings } from '../controllers/settingsController.js';
@@ -76,6 +78,12 @@ router.get("/upi", getUpiDetails);
 router.put("/update/upi", updateUpiDetails);
 
 router.post("/create-code", createRedeemCode);
+
+router.get("/redeem-codes", getAllRedeemCodes);
+
+// ✅ Get single code
+router.get("/redeem-codes/:id", getRedeemCodeById);
+
 
 
 export default router;

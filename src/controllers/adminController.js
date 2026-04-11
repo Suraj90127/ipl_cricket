@@ -876,3 +876,48 @@ export const createRedeemCode = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+
+export const getAllRedeemCodes = async (req, res) => {
+  try {
+    const codes = await RedeemCode.find()
+      .populate("usedBy", "name email")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json({
+      success: true,
+      count: codes.length,
+      data: codes,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// ✅ Get Single Redeem Code by ID
+export const getRedeemCodeById = async (req, res) => {
+  try {
+    const code = await RedeemCode.findById(req.params.id)
+      .populate("usedBy", "name email");
+
+    if (!code) {
+      return res.status(404).json({
+        success: false,
+        message: "Redeem code not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: code,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
