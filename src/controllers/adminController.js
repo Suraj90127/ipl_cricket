@@ -751,66 +751,93 @@ export async function adminUpdateTransaction(req, res) {
   try {
     let { status } = req.body;
 
-    // map 'done' to 'approved'
-    if (status === 'done') status = 'approved';
+    // normalize status
+    status = String(status).toLowerCase().trim();
 
-    if (!['approved', 'rejected'].includes(status)) {
-      return res.status(400).json({ message: 'Invalid status' });
+    // map 'done' → approved
+    if (status === "done") status = "approved";
+
+    if (!["approved", "rejected"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
     }
 
+    // 🔍 find transaction
     const tx = await Transaction.findById(req.params.id);
     if (!tx) {
-      return res.status(404).json({ message: 'Transaction not found' });
+      return res.status(404).json({ message: "Transaction not found" });
     }
 
-    if (tx.status === 'approved' || tx.status === 'rejected') {
-      return res.status(400).json({ message: 'Already processed' });
+    // ❌ already processed
+    if (tx.status !== "pending") {
+      return res.status(400).json({ message: "Already processed" });
     }
 
+    // 🔍 find user
     const user = await User.findById(tx.userId);
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
-    // ✅ Recharge Approved → Add balance + First Recharge Check
-    if (tx.type === 'recharge' && status === 'approved') {
-      user.balance += Math.abs(tx.amount);
+    // ================================
+    // ✅ RECHARGE APPROVED
+    // ================================
+    if (tx.type === "recharge" && status === "approved") {
+      user.balance = (user.balance || 0) + Math.abs(tx.amount);
 
-      // 🔥 FIRST RECHARGE LOGIC
-      if (user.firstRecharge === 'no') {
-        user.firstRecharge = 'yes';
+      // 🔥 FIRST RECHARGE FIX (robust)
+      const isFirstRechargeDone =
+        user.firstRecharge === true ||
+        String(user.firstRecharge).toLowerCase().trim() === "yes";
+
+      if (!isFirstRechargeDone) {
+        user.firstRecharge = true; // ✅ use boolean
       }
 
       await user.save();
     }
 
-    // ✅ Withdraw Rejected → Refund
-    if (tx.type === 'withdraw' && status === 'rejected') {
-      user.balance += Math.abs(tx.amount);
+    // ================================
+    // ✅ WITHDRAW REJECTED (refund)
+    // ================================
+    if (tx.type === "withdraw" && status === "rejected") {
+      user.balance = (user.balance || 0) + Math.abs(tx.amount);
       await user.save();
     }
 
-    // ✅ Update transaction
+    // ================================
+    // ✅ UPDATE TRANSACTION
+    // ================================
     tx.status = status;
     await tx.save();
 
-    // 🔥 RechargeHistory sync
-    if (tx.type === 'recharge') {
+    // ================================
+    // 🔥 SYNC RECHARGE HISTORY
+    // ================================
+    if (tx.type === "recharge") {
       await RechargeHistory.findOneAndUpdate(
         {
           userId: tx.userId,
-          utrId: tx.utrId
+          utrId: tx.utrId,
         },
         {
-          status: status
+          status: status,
         }
       );
     }
 
-    res.json({ message: 'Updated', tx });
+    return res.json({
+      success: true,
+      message: "Transaction updated successfully",
+      tx,
+    });
 
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error("Admin Update Transaction Error:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 }
 
